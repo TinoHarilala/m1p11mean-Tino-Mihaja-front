@@ -28,30 +28,28 @@
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
-                    *ngIf="user?.avatar"
-                    [src]="user?.avatar"
+                    *ngIf="user.avatar"
+                    [src]="user.avatar"
                     alt="User avatar">
                 <mat-icon
                     class="icon-size-24"
-                    *ngIf="!user?.avatar"
+                    *ngIf="!user.avatar"
                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
             </div>
             <div class="flex flex-col items-center justify-center w-full mt-6">
                 <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    {{user?.name}}
+                    {{user.name}}
                 </div>
                 <div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user?.email}}
+                    {{user.email}}
                 </div>
             </div>
         </div>
     </ng-container>
     <!-- Navigation footer hook -->
     <ng-container fuseVerticalNavigationContentFooter>
-        <div class="flex flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12">
-            <img
-                class="max-w-36"
-                src="assets/images/logo/logo-text-on-dark.svg">
+        <div class="flex text-4xl flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12">
+            MEAN
         </div>
     </ng-container>
 </fuse-vertical-navigation>
@@ -72,14 +70,6 @@
             <languages></languages>
             <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
             <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
-            <messages></messages>
-            <button
-                class="lg:hidden"
-                mat-icon-button
-                (click)="quickChat.toggle()">
-                <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
-            </button>
         </div>
     </div>
 
@@ -91,11 +81,8 @@
     </div>
 
     <!-- Footer -->
-    <!--<div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
-    </div>-->
+    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
+        <span class="font-medium text-secondary">&copy; <b>RANDRIAMAHAROSON</b> Tino Harilala </span>
+    </div>
 
 </div>
-
-<!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>

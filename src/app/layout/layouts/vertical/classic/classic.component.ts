@@ -39,7 +39,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
         private _router: Router,
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
     )
     {
     }
@@ -65,8 +65,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-
-         // Subscribe to navigation data
+        // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((navigation: Navigation) =>

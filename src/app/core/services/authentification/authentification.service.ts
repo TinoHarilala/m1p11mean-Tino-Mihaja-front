@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+/*import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {catchError, Observable, of, switchMap} from "rxjs";
@@ -20,7 +20,7 @@ export class AuthentificationService {
 
   login(email: string, password: string) {
     this._authenticated = true;
-    return this.httpClient.post<any>([environment.apiGrv, 'login'].join('/'), {
+    return this.httpClient.post<any>([AppService.API, 'login'].join('/'), {
       email: email,
       password: password,
     });
@@ -80,7 +80,7 @@ export class AuthentificationService {
             'x-access-token': authToken
         })
 
-        const url = ['https://api.capsule.mg/grv', 'companies', id, 'settings'].join('/');
+        const url = [AppService.API, 'companies', id, 'settings'].join('/');
 
         if (fields) {
             return this._httpClient.post<any>(url, { fields }, {headers: headers});
@@ -90,3 +90,4 @@ export class AuthentificationService {
         }
     }
 }
+*/
