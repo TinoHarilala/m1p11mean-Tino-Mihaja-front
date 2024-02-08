@@ -6,8 +6,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { AuthService } from 'app/core/auth/auth.service';
 import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
+import { User } from 'app/core/model/user.model';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -37,6 +38,7 @@ export class UserComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _userService: UserService,
+        private authService: AuthService
     )
     {
     }
@@ -51,7 +53,7 @@ export class UserComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Subscribe to user changes
-        this._userService.user$
+        /*this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: User) =>
             {
@@ -59,7 +61,10 @@ export class UserComponent implements OnInit, OnDestroy
 
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
-            });
+            });*/
+            this.user = {avatar: null, ...this.authService.session}
+            console.log(this.user);
+            
     }
 
     /**
@@ -81,20 +86,6 @@ export class UserComponent implements OnInit, OnDestroy
      *
      * @param status
      */
-    updateUserStatus(status: string): void
-    {
-        // Return if user is not available
-        if ( !this.user )
-        {
-            return;
-        }
-
-        // Update the user
-        this._userService.update({
-            ...this.user,
-            status,
-        }).subscribe();
-    }
 
     /**
      * Sign out

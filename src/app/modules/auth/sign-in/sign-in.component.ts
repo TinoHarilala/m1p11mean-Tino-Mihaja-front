@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
     selector     : 'auth-sign-in',
@@ -54,8 +55,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
+            email     : ['jean@gmail.com', [Validators.required, Validators.email]],
+            password  : ['jean', Validators.required],
             rememberMe: [''],
         });
     }
@@ -82,37 +83,28 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () =>
-                {
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
-
-                },
-                (response) =>
-                {
-                    // Re-enable the form
-                    this.signInForm.enable();
-
-                    // Reset the form
-                    this.signInNgForm.resetForm();
-
-                    // Set the alert
+            this._authService.signIn(this.signInForm.value).pipe(
+                tap((res)=>{
+                    this.showAlert = true
                     this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password',
+                        type   : 'success',
+                        message: 'Connection réussit',
                     };
-
-                    // Show the alert
-                    this.showAlert = true;
-                },
-            );
+                    this._authService.accessToken = res.token
+                    this._authService.session = res.client
+                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                    this._router.navigateByUrl(redirectURL);
+                   
+                }),
+                catchError(error => {    
+                    this.showAlert = true        
+                    this.alert = {
+                        type: 'error',
+                        message: 'Erreur lors de la connexion',
+                    };
+    
+                    return of(false); 
+                })
+            ).subscribe()
     }
 }
