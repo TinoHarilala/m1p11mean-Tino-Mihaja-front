@@ -52,19 +52,7 @@ export class UserComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
-        // Subscribe to user changes
-        /*this._userService.user$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) =>
-            {
-                this.user = user;
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });*/
-            this.user = {avatar: null, ...this.authService.session}
-            console.log(this.user);
-            
+            this.user = {avatar: null, ...this.authService.session};            
     }
 
     /**
