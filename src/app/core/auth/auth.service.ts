@@ -18,8 +18,6 @@ export class AuthService
         private _httpClient: HttpClient,
     )
     {
-        console.log(this.apiUrl);
-        
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,7 +82,7 @@ export class AuthService
      */
     signIn(credentials: { email: string; password: string }): Observable<any>
     {
-        const url = ['http://localhost:3000' , 'login'].join('/');
+        const url = [this.apiUrl , 'login'].join('/');
 
         return this._httpClient.post(url, credentials).pipe(
             switchMap((response: any) =>
@@ -134,9 +132,10 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    signUp(user: User): Observable<any>
     {
-        return this._httpClient.post('api/auth/sign-up', user);
+        const url = [this.apiUrl, 'registration'].join('/');
+        return this._httpClient.post(url, user);
     }
 
     /**
