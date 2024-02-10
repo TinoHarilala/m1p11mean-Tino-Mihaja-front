@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { User } from '../model/user.model';
 
@@ -9,15 +10,16 @@ import { User } from '../model/user.model';
 export class AuthService
 {
     private _authenticated: boolean = false;
-
+    private apiUrl = environment.apiUrl;
     /**
      * Constructor
      */
     constructor(
         private _httpClient: HttpClient,
-        private _userService: UserService,
     )
     {
+        console.log(this.apiUrl);
+        
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,7 +84,7 @@ export class AuthService
      */
     signIn(credentials: { email: string; password: string }): Observable<any>
     {
-        const url = ['http://localhost:3000', 'login'].join('/');
+        const url = ['http://localhost:3000' , 'login'].join('/');
 
         return this._httpClient.post(url, credentials).pipe(
             switchMap((response: any) =>
