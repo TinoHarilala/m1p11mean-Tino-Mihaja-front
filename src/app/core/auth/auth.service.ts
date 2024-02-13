@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FuseNavigationItem } from '@fuse/components/navigation';
 import { environment } from 'environments/environment';
 import { Observable, of, Subject, switchMap, throwError } from 'rxjs';
 import { Client } from '../model/client.model';
@@ -10,7 +11,7 @@ export class AuthService
 {
     private _authenticated: boolean = false;
     private apiUrl = environment.apiUrl;
-    private getUserConnected = new Subject<User>();
+    private getUserConnected = new Subject<any>();
     public $getUserConnected = this.getUserConnected.asObservable();
     /**
      * Constructor
@@ -158,7 +159,7 @@ export class AuthService
         return of(!!this.accessToken);
     }
 
-    subGetUserConnected(User) {
-        this.getUserConnected.next(User);
+    sharedActiveMenu(menu: FuseNavigationItem[]) {
+        this.getUserConnected.next(menu);
     }
 }

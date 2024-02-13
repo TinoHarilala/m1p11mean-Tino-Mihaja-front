@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import { MenuService } from 'app/core/services/menu.service';
 import { catchError, of, tap } from 'rxjs';
 
 @Component({
@@ -41,6 +42,7 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
+        private _menuService: MenuService
     )
     {
     }
@@ -56,8 +58,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            email     : ['jean@gmail.com', [Validators.required, Validators.email]],
-            password  : ['jean', Validators.required]
+            email     : ['Paul@gmail.com', [Validators.required, Validators.email]],
+            password  : ['Paul1234', Validators.required]
         });
     }
 
@@ -99,10 +101,16 @@ export class AuthSignInComponent implements OnInit
                 };
                 this._authService.accessToken = res.token;
                 this._authService.session = res?.client || res?.employe;
-                this._authService.subGetUserConnected(res.client);
+                if (this._authService.session?.isManager == 0) {
+                    const defaultMenuEmployee = this._menuService.getEmployeeMenu();
+                    this._authService.sharedActiveMenu(defaultMenuEmployee) ;
+                }
+                else {
+                    const defaultMenuAdmin = this._menuService.getAdminMenu();
+                    this._authService.sharedActiveMenu(defaultMenuAdmin) ;
+                }
                 const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
                 this._router.navigateByUrl(redirectURL);
-                
             }),
             catchError(error => {    
                 this.showAlert = true        

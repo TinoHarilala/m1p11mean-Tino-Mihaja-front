@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { FuseNavigationItem } from '@fuse/components/navigation';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -52,18 +52,15 @@ export class NavigationMockApi
         this.subscription.add(
             this._authService.$getUserConnected.subscribe((res)=>{
                 if (res) {
-                    this.userConnected = res;          
+                    this._defaultNavigation = res;
+                    sessionStorage.setItem('active_menu', JSON.stringify(res))
                 }
             })
         )
 
-        if(this.userConnected?.isManager && this.userConnected?.isManager === 0){
-            this._defaultNavigation = this.menuService.getEmployeeMenu();
-            
-        }     
-        else {
-            this._defaultNavigation = this.menuService.getAdminMenu();
-        } 
+        if(!this._defaultNavigation){
+            this._defaultNavigation = JSON.parse(sessionStorage.getItem('active_menu'));
+        }
 
         this._fuseMockApiService
             .onGet('api/common/navigation')

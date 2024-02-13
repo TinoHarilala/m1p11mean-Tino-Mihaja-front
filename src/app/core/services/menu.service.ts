@@ -7,11 +7,17 @@ import { FuseNavigationItem } from "@fuse/components/navigation";
 export class MenuService {
     getAdminMenu(){
         const menu: FuseNavigationItem[] = [{
-            id   : 'offer',
-            title: 'Offre',
-            type : 'basic',
-            icon : 'heroicons_outline:chart-pie',
-            link : '/offer'
+            id   : 'employee',
+            title: 'Employés',
+            type : 'collapsable',
+            icon : 'heroicons_outline:user',
+            link : '/employee/list',
+            children: [{
+                id   : 'employee-list',
+                title: 'Liste',
+                type : 'basic',
+                link : '/employee/list'
+            }]
         }]
         return menu
     }

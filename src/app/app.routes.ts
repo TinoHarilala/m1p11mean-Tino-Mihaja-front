@@ -3,7 +3,6 @@ import { initialDataResolver } from 'app/app.resolvers';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
-import { OfferComponent } from './modules/admin/offer/offer.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -76,6 +75,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
+            {path: 'employee', loadChildren: () => import('app/modules/admin/employee/employee.routes')},
         ]
     }
 ];
