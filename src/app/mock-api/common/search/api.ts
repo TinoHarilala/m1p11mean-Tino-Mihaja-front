@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FuseNavigationItem, FuseNavigationService } from '@fuse/components/navigation';
 import { FuseMockApiService } from '@fuse/lib/mock-api';
+import { AuthService } from 'app/core/auth/auth.service';
 import { contacts } from 'app/mock-api/apps/contacts/data';
 import { tasks } from 'app/mock-api/apps/tasks/data';
 import { defaultNavigation } from 'app/mock-api/common/navigation/data';
@@ -19,6 +20,7 @@ export class SearchMockApi
     constructor(
         private _fuseMockApiService: FuseMockApiService,
         private _fuseNavigationService: FuseNavigationService,
+        private _authService: AuthService
     )
     {
         // Register Mock API handlers

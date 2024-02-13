@@ -102,10 +102,7 @@ export class AuthSignUpComponent implements OnInit {
         // Hide the alert
         this.showAlert = false;
 
-        // Sign up
-
-        console.log(body);
-        
+        // Sign up        
 
         this._authService.signUp(body).pipe(
             tap(() => {

@@ -77,12 +77,13 @@
                 </mat-form-field>
 
                 <!-- Submit button -->
-                <button
-                    class="fuse-mat-button-large w-full mt-6"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [disabled]="signInForm.disabled"
-                    (click)="signIn()">
+                <div class="mt-6 flex justify-between">
+                    <button
+                        class="fuse-mat-button-large w-2/3 mr-2"
+                        mat-flat-button
+                        [color]="'primary'"
+                        [disabled]="signInForm.disabled"
+                        (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
                         Connecter
                     </span>
@@ -92,40 +93,15 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
 
-                <!-- Separator -->
-                <div class="flex items-center mt-8">
-                    <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Ou connecter avec</div>
-                    <div class="flex-auto mt-px border-t"></div>
-                </div>
-
-                <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
-                    <button
-                        class="flex-auto"
+                    <button (click)="toggleButton()"                  
+                        class="fuse-mat-button-large w-1/4"
+                        [ngClass]="{'bg-primary': toggle}"
                         type="button"
                         mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:facebook'"></mat-icon>
-                    </button>
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:twitter'"></mat-icon>
-                    </button>
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:github'"></mat-icon>
+                        <mat-icon [ngClass]="{'text-white': toggle}" svgIcon="mat_outline:admin_panel_settings"></mat-icon>
                     </button>
                 </div>
+        
             </form>
         </div>
     </div>

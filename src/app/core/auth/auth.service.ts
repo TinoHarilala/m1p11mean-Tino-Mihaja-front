@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
 import { environment } from 'environments/environment';
-import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
+import { Observable, of, Subject, switchMap, throwError } from 'rxjs';
+import { Client } from '../model/client.model';
 import { User } from '../model/user.model';
 
 @Injectable({providedIn: 'root'})
@@ -11,6 +10,8 @@ export class AuthService
 {
     private _authenticated: boolean = false;
     private apiUrl = environment.apiUrl;
+    private getUserConnected = new Subject<User>();
+    public $getUserConnected = this.getUserConnected.asObservable();
     /**
      * Constructor
      */
@@ -80,9 +81,9 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(urlSegment: 'login' | 'login.employe', credentials: { email: string; password: string }): Observable<any>
     {
-        const url = [this.apiUrl , 'login'].join('/');
+        const url = [this.apiUrl , urlSegment].join('/');
 
         return this._httpClient.post(url, credentials).pipe(
             switchMap((response: any) =>
@@ -101,6 +102,7 @@ export class AuthService
             }),
         );
     }
+
 
     /**
      * Sign in using the access token
@@ -132,7 +134,7 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: User): Observable<any>
+    signUp(user: Client): Observable<any>
     {
         const url = [this.apiUrl, 'registration'].join('/');
         return this._httpClient.post(url, user);
@@ -154,5 +156,9 @@ export class AuthService
     check(): Observable<boolean>
     {
         return of(!!this.accessToken);
+    }
+
+    subGetUserConnected(User) {
+        this.getUserConnected.next(User);
     }
 }

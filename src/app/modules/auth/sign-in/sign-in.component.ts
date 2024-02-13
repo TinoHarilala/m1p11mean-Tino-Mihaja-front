@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,7 @@ import { catchError, of, tap } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     standalone   : true,
-    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports      : [RouterLink, FuseAlertComponent, NgIf, NgClass, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
 })
 export class AuthSignInComponent implements OnInit
 {
@@ -31,6 +31,7 @@ export class AuthSignInComponent implements OnInit
     };
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
+    toggle: boolean = false;
 
     /**
      * Constructor
@@ -56,8 +57,7 @@ export class AuthSignInComponent implements OnInit
         // Create the form
         this.signInForm = this._formBuilder.group({
             email     : ['jean@gmail.com', [Validators.required, Validators.email]],
-            password  : ['jean', Validators.required],
-            rememberMe: [''],
+            password  : ['jean', Validators.required]
         });
     }
 
@@ -82,29 +82,41 @@ export class AuthSignInComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
-        // Sign in
-            this._authService.signIn(this.signInForm.value).pipe(
-                tap((res)=>{
-                    this.showAlert = true
-                    this.alert = {
-                        type   : 'success',
-                        message: 'Connection réussit',
-                    };
-                    this._authService.accessToken = res.token
-                    this._authService.session = res.client
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-                    this._router.navigateByUrl(redirectURL);
-                   
-                }),
-                catchError(error => {    
-                    this.showAlert = true        
-                    this.alert = {
-                        type: 'error',
-                        message: 'Erreur lors de la connexion',
-                    };
-    
-                    return of(false); 
-                })
-            ).subscribe()
+        // Sign in 
+        const inputValue = this.signInForm.getRawValue();
+        
+        const body = {
+            "email": inputValue.email,
+            "password": inputValue.password
+        }
+
+        this._authService.signIn(this.toggle ? 'login.employe' : 'login', body).pipe(
+            tap((res)=>{
+                this.showAlert = true;
+                this.alert = {
+                    type   : 'success',
+                    message: 'Connection réussit',
+                };
+                this._authService.accessToken = res.token;
+                this._authService.session = res?.client || res?.employe;
+                this._authService.subGetUserConnected(res.client);
+                const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+                this._router.navigateByUrl(redirectURL);
+                
+            }),
+            catchError(error => {    
+                this.showAlert = true        
+                this.alert = {
+                    type: 'error',
+                    message: 'Erreur lors de la connexion',
+                };
+
+                return of(false); 
+            })
+        ).subscribe()
+    }
+
+    toggleButton(){
+        this.toggle =  !this.toggle;
     }
 }
