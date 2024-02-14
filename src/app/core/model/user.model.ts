@@ -7,7 +7,7 @@ export class User extends BaseModel{
     email: String;
     password: String;
     adresse: String;
-    services: any;
+    services: any[];
     isManager: Number;
     avatar?: string
 }
