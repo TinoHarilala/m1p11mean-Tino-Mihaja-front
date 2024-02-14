@@ -58,7 +58,6 @@ export class EmployeeComponent implements OnInit {
             (res: any) => {
                 this.isLoadingResults = false;
                 this.data = res.employe
-                this.data = []
             }
         );
     }
