@@ -64,8 +64,9 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            {path: 'admin', loadChildren: () => import('app/modules/admin/admin.routes')},
+            // admin routes
             {path: 'employee', loadChildren: () => import('app/modules/admin/employee/employee.routes')},
+            {path: 'service', loadChildren: () => import('app/modules/admin/service/service.routes')},
         ]
     }
 ];

@@ -1,0 +1,45 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <h2 class="text-4xl font-extrabold tracking-tight">Services</h2>
+            </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <!-- Search -->
+                <div class="flex items-center">
+                    <button 
+                            class="ml-4"
+                            mat-flat-button
+                            [color]="'primary'">
+                        <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
+                        <span class="ml-2 mr-1">Ajouter</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-4">
+            <div *ngFor="let service of services" class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between m-6 mb-0">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ service.nom }}</div>
+                    <div class="ml-2">
+                        <button
+                            class="h-6 min-h-6 px-2 rounded-full bg-hover"
+                            mat-button >
+                            <span class="font-medium text-sm text-secondary">{{ service.duree }} heures</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row lg:items-center mx-6 pb-4 mt-3">
+                    <div class="text-5xl font-bold tracking-tighter leading-tight">{{ service.prix }} Ar</div>
+                    <div class="flex lg:flex-col lg:ml-3">
+                        <div class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                            <span class="font-medium text-red-500">{{ service.commission }}%</span>
+                            <span class="ml-1">Commission</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

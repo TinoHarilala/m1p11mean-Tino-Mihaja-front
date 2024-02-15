@@ -6,19 +6,35 @@ import { FuseNavigationItem } from "@fuse/components/navigation";
 })
 export class MenuService {
     getAdminMenu(){
-        const menu: FuseNavigationItem[] = [{
-            id   : 'employee',
-            title: 'Employés',
-            type : 'collapsable',
-            icon : 'heroicons_outline:user',
-            link : '/employee/list',
-            children: [{
-                id   : 'employee-list',
-                title: 'Liste',
-                type : 'basic',
-                link : '/employee/list'
-            }]
-        }]
+        const menu: FuseNavigationItem[] = 
+        [
+            {
+                id   : 'employee',
+                title: 'Employés',
+                type : 'collapsable',
+                icon : 'heroicons_outline:user',
+                link : '/employee/list',
+                children: [{
+                    id   : 'employee-list',
+                    title: 'Liste',
+                    type : 'basic',
+                    link : '/employee/list'
+                }]
+            },
+            {
+                id   : 'service',
+                title: 'Services',
+                type : 'collapsable',
+                icon : 'mat_outline:category',
+                link : '/service/list',
+                children: [{
+                    id   : 'service-list',
+                    title: 'Liste',
+                    type : 'basic',
+                    link : '/service/list'
+                }]
+            }
+        ]
         return menu
     }
 
