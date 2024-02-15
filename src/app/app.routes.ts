@@ -9,10 +9,6 @@ import { LayoutComponent } from 'app/layout/layout.component';
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
 
-    {path: '', pathMatch : 'full', redirectTo: 'admin'},
-
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'admin'},
-
     // Auth routes for guests
     {
         path: '',
