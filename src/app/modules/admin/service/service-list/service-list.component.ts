@@ -9,7 +9,6 @@ import { MatTableModule } from "@angular/material/table";
 import { RouterLink } from "@angular/router";
 import { ServiceModel } from "app/core/model/service.model";
 import { Service } from "../service.service";
-import {MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
     selector: 'service',
@@ -23,7 +22,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         ReactiveFormsModule,
         MatButtonModule,
         MatFormFieldModule,
-        MatTooltipModule,
         MatProgressSpinnerModule,
         NgIf,
         NgFor
