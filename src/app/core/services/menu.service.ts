@@ -12,7 +12,7 @@ export class MenuService {
                 id   : 'employee',
                 title: 'Employés',
                 type : 'collapsable',
-                icon : 'heroicons_outline:user',
+                icon : 'heroicons_outline:users',
                 link : '/employee/list',
                 children: [{
                     id   : 'employee-list',
