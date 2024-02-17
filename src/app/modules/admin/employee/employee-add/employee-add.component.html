@@ -1,0 +1,150 @@
+<div class=" min-w-0 p-6 w-full">
+    <form [formGroup]="employeeForm" class="mt-8 w-full flex flex-auto justify-center">
+        <div class="w-[47%] mr-2 py-4 px-4 sm:p-10 sm:rounded-2xl sm:shadow sm:bg-card">
+            <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+                <!-- Title -->
+                <div class="text-4xl mb-4 font-extrabold tracking-tight leading-tight">Nouvel utilisateur</div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Nom d'utilisateur</mat-label>
+                    <input minlength="4" id="name" matInput [formControlName]="'name'">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Email</mat-label>
+                    <input id="email" matInput formControlName="email">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Date de naissance</mat-label>
+                    <input matInput formControlName="date_of_birth" readonly (click)="dob.open()" id="date_of_birth"
+                        [matDatepicker]="dob">
+                    <mat-datepicker-toggle matIconSuffix [for]="dob"></mat-datepicker-toggle>
+                    <mat-datepicker #dob></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Contact</mat-label>
+                    <input maxlength="10" minlength="10" id="contact" matInput formControlName="contact">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Adresse</mat-label>
+                    <input minlength="4" id="address" matInput formControlName="address">
+                </mat-form-field>
+
+                <div class="grid grid-cols-2 gap-4" [formGroup]="dateTimeForm">
+                    <div>
+                        <label for="startTime" class="font-medium text-gray-600">Début*</label><br>
+                        <div class="relative border-1">
+                            <mat-icon class="absolute top-3.5 right-2.5 " svgIcon="mat_outline:timer"></mat-icon>
+                            <input
+                                class="absolute w-full  pl-4 mt-1 border border-gray-300 rounded-md h-12 top-0 left-0"
+                                formControlName="startTime" matTimepicker>
+                        </div>
+
+                    </div>
+                    <div>
+                        <label for="endTime" class="font-medium text-gray-600">Fin*</label>
+                        <div class="relative border-1">
+                            <mat-icon class="absolute top-3.5 right-2.5" svgIcon="mat_outline:timer"></mat-icon>
+                            <input
+                                class=" absolute w-full pl-4 mt-1 border border-gray-300 rounded-md h-12 top-0 left-0"
+                                formControlName="endTime" matTimepicker>
+                        </div>
+                    </div>
+
+                </div>
+
+                <mat-form-field class="w-full relative">
+                    <mat-label>Mot de passe</mat-label>
+                    <input id="password" matInput type="password" formControlName="password" #passwordField>
+                    <button mat-icon-button type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                    </button>
+                    <label class="absolute bottom-[-22px] left-0 text-sm text-red-900"
+                        *ngIf="employeeForm.get('password').hasError('minlength') && employeeForm.get('password').touched">
+                        au moins 4 caractères est requis.</label>
+
+                </mat-form-field>
+
+                <mat-form-field class="w-full relative">
+                    <mat-label>Confirmation mot de passe</mat-label>
+                    <input id="confirm_password" matInput type="password" formControlName="confirm_password"
+                        #confirmPasswordField>
+                    <button mat-icon-button type="button"
+                        (click)="confirmPasswordField.type === 'password' ? confirmPasswordField.type = 'text' : confirmPasswordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="confirmPasswordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="confirmPasswordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                    </button>
+                    <label class="absolute bottom-[-22px] left-0 text-sm text-red-900"
+                        *ngIf="employeeForm.get('confirm_password').value && employeeForm.errors?.passwordDoNotMatch">Le
+                        mot de passe ne correspand pas</label>
+                </mat-form-field>
+
+                <button (click)="toggleButton()" class="fuse-mat-button-large w-1/4" [ngClass]="{'bg-primary': toggle}"
+                    type="button" mat-stroked-button>
+                    <mat-icon [ngClass]="{'text-white': toggle}" svgIcon="mat_outline:admin_panel_settings"></mat-icon>
+                </button>
+
+                <button class="fuse-mat-button-large" mat-flat-button
+                    [disabled]="employeeForm.invalid || dateTimeForm.invalid" [color]="'primary'" (click)="next()">
+                    <span class="inline-flex items-center">
+                        Suivant
+                        <mat-icon class="ml-2" svgIcon="heroicons_outline:arrow-long-right"></mat-icon>
+                    </span>
+                    <mat-progress-spinner *ngIf="employeeForm.disabled" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </div>
+        
+        <div *ngIf="showNextStep && !employeeForm.invalid && !dateTimeForm.invalid" class="w-[47%] ml-2 py-4 px-4 sm:p-10 sm:rounded-2xl sm:shadow sm:bg-card">
+            <div class="text-4xl mb-10 font-extrabold tracking-tight leading-tight">Assignation service</div>
+            <!-- DRAG AND DROP -->
+            <div cdkDropListGroup class="mt-5 grid grid-cols-2 gap-4">
+                <div class="border border-gray-300 rounded-md px-4 py-4 h-80 max-h-80 overflow-auto">
+                    <h2 class="text-secondary text-lg text-center mb-4">Disponibles</h2>
+                    <div #todoList="cdkDropList" (cdkDropListDropped)="drop($event, availableServices)"
+                        [cdkDropListData]="availableServices" cdkDropList class="example-list min-h-50">
+                        <div *ngFor="let service of availableServices" cdkDrag class="bg-[#e2e8f0] cursor-move
+                    rounded-2xl text-center font-medium text-gray-600 example-box px-2 py-2 mt-2">
+                            {{ service.nom }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 rounded-md px-4 py-4 h-80 max-h-80 overflow-auto">
+                    <h2 class="text-secondary text-lg text-center mb-4">Sélectionnés</h2>
+                    <div #doneList="cdkDropList" (cdkDropListDropped)="drop($event, selectedServices)"
+                        [cdkDropListData]="selectedServices" cdkDropList class="example-list min-h-50">
+                        <div *ngFor="let service of selectedServices" cdkDrag class="bg-primary cursor-move
+                     rounded-2xl text-center font-medium text-white example-box px-2 py-2 mt-2">
+                            {{ service.nom }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <button class="col-start-2 fuse-mat-button-large mt-4" mat-flat-button
+                    [disabled]="selectedServices.length === 0" [color]="'primary'" (click)="save()">
+                    <span *ngIf="!isLoading">
+                        Enregistrer
+                    </span>
+                    <mat-progress-spinner *ngIf="isLoading" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>

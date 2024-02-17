@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { AdminService } from '../../admin.services';
 import { NgIf } from "@angular/common";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'employee',
@@ -25,6 +25,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatFormFieldModule,
         MatProgressSpinnerModule,
         NgIf,
+        RouterModule
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { subscriptSizing: 'dynamic' } }

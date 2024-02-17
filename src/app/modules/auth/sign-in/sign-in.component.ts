@@ -102,13 +102,11 @@ export class AuthSignInComponent implements OnInit
                 this._authService.accessToken = res.token;
                 this._authService.session = res?.client || res?.employe;
                 if (this._authService.session?.isManager == 0) {
-                    const defaultMenuEmployee = this._menuService.getEmployeeMenu();
-                    this._authService.sharedActiveMenu(defaultMenuEmployee) ;
+                    this._menuService.getEmployeeMenu() ;
                     this._router.navigateByUrl('/employee');
                 }
                 else {
-                    const defaultMenuAdmin = this._menuService.getAdminMenu();
-                    this._authService.sharedActiveMenu(defaultMenuAdmin) ;
+                    this._menuService.getAdminMenu() ;
                     this._router.navigateByUrl('/admin');
                 }
             }),
