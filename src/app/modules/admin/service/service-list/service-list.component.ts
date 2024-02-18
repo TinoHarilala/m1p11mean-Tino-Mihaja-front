@@ -33,6 +33,7 @@ import { ServiceAddComponent } from "../service-add/service-add.component";
 })
 export class ServiceListComponent implements OnInit {
     services: ServiceModel[] = [];
+    isLoading: boolean = true;
 
     constructor(
         private service: Service,
@@ -46,7 +47,8 @@ export class ServiceListComponent implements OnInit {
     private getService() {
         this.service.getList().subscribe(
             (res: any) => {
-                this.services = res.service
+                this.isLoading = false;
+                this.services = res.service;
             }
         )
     }
