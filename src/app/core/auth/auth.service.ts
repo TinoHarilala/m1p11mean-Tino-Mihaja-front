@@ -164,6 +164,10 @@ export class AuthService
         return of(true);
     }
 
+    sharedActiveMenu(menu: FuseNavigationItem[]) {
+        this.getUserConnected.next(menu);
+    }
+
     /**
      * Sign up
      *
