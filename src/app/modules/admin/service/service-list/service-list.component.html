@@ -49,6 +49,9 @@
                         </div>
                     </ng-container>
                 </div>
+                <div *ngIf="service?.employe?.length === 0" class="my-6 text-secondary text-center">
+                    Aucun employé
+                </div>
                 <div class="flex items-center ml-6 mb-6 text-md font-md">
                     <div class="text-secondary">{{service?.employe?.length}} employés</div>
                 </div>
