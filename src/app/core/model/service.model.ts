@@ -5,4 +5,5 @@ export class ServiceModel extends BaseModel {
     prix: Number
     duree: Number
     commission: Number
+    image?: string
 }

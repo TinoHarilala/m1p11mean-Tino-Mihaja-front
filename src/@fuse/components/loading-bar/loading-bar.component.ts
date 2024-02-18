@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FuseLoadingService } from '@fuse/services/loading';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,6 +13,8 @@ import { Subject, takeUntil } from 'rxjs';
     exportAs     : 'fuseLoadingBar',
     standalone   : true,
     imports      : [NgIf, MatProgressBarModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
 {
@@ -25,7 +27,8 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
     /**
      * Constructor
      */
-    constructor(private _fuseLoadingService: FuseLoadingService)
+    constructor(private _fuseLoadingService: FuseLoadingService, private cdr: ChangeDetectorRef
+        )
     {
     }
 
@@ -74,7 +77,7 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
             {
                 this.show = value;
             });
-
+            this.cdr.detectChanges();
     }
 
     /**

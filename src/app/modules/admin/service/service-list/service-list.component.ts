@@ -9,7 +9,9 @@ import { MatTableModule } from "@angular/material/table";
 import { RouterLink } from "@angular/router";
 import { ServiceModel } from "app/core/model/service.model";
 import { Service } from "../service.service";
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from "@angular/material/dialog";
+import { ServiceAddComponent } from "../service-add/service-add.component";
 
 @Component({
     selector: 'service',
@@ -29,22 +31,33 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         NgFor
     ]
 })
-export class ServiceListComponent implements OnInit{
+export class ServiceListComponent implements OnInit {
     services: ServiceModel[] = [];
 
     constructor(
-        private service: Service
-    ){}
+        private service: Service,
+        public dialog: MatDialog,
+    ) { }
 
     ngOnInit(): void {
         this.getService();
     }
-    
-    private getService(){
+
+    private getService() {
         this.service.getList().subscribe(
             (res: any) => {
-                 this.services = res.service
+                this.services = res.service
             }
         )
+    }
+
+    openAddServiceModal() {
+        const dialogRef = this.dialog.open(ServiceAddComponent, {
+            autoFocus: false,
+            width: '600px',
+        });
+        dialogRef.afterClosed().subscribe(item => {
+            this.getService();
+        });
     }
 }

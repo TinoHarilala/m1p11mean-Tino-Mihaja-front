@@ -6,19 +6,13 @@
             </div>
             <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
                 <!-- Search -->
-                <div class="flex items-center">
-                    <button 
-                            class="ml-4"
-                            mat-flat-button
-                            [color]="'primary'">
-                        <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
-                        <span class="ml-2 mr-1">Ajouter</span>
-                    </button>
-                </div>
             </div>
         </div>
 
         <div class="grid grid-cols-3 gap-4 mt-4">
+            <div (click)="openAddServiceModal()" class="sm:col-span-2 lg:col-span-1 min-h-60 flex flex-col flex-auto flex justify-center items-center border-dashed border-2 border-gray-300 rounded-2xl overflow-hidden hover:bg-gray-200 hover:cursor-pointer">
+                <mat-icon class="text-gray-400 icon-size-16" svgIcon="heroicons_outline:plus"></mat-icon>
+            </div>
             <div *ngFor="let service of services" class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex items-start justify-between m-6 mb-0">
                     <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ service.nom }}</div>

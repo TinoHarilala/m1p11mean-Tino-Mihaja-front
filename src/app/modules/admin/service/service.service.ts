@@ -15,4 +15,9 @@ export class Service {
         const url = [environment.apiUrl, 'get.service'].join('/');
         return this.http.get<ServiceModel[]>(url);
     }
+
+    create(body: ServiceModel){
+        const url = [environment.apiUrl, 'create.service'].join('/');
+        return this.http.post(url, body);
+    }
 }

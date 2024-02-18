@@ -43,7 +43,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatProgressSpinnerModule,
         CdkDrag,
         CdkDropList,
-        CdkDropListGroup,
+        CdkDropListGroup
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { subscriptSizing: 'dynamic' } }
@@ -117,8 +117,6 @@ export class EmployeeAddComponent implements OnInit {
                 event.currentIndex,
             );
         }
-        console.log(list);
-
     }
 
     next() {
