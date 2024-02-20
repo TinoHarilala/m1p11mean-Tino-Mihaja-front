@@ -107,11 +107,14 @@ export class AuthSignInComponent implements OnInit
                     this._menuService.getEmployeeMenu() ;
                     this._router.navigateByUrl('/employee');
                 }
-                else {
+                else if (this._authService.session?.isManager == 1){
                     const defaultMenuAdmin = this._menuService.getAdminMenu();
                     this._authService.sharedActiveMenu(defaultMenuAdmin) ;
                     this._menuService.getAdminMenu() ;
                     this._router.navigateByUrl('/admin');
+                }
+                else {
+                    this._router.navigateByUrl('/client');
                 }
             }),
             catchError(error => {    

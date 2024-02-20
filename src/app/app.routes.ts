@@ -45,12 +45,14 @@ export const appRoutes: Route[] = [
     // Landing routes
     {
         path: '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'empty'
         },
         children: [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
+            {path: 'client', loadChildren: () => import('app/modules/client/client.routes')}
         ]
     },
 

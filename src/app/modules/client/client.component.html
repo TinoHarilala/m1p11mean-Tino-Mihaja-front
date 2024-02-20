@@ -1,0 +1,57 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex flex-col shadow bg-card">
+        <div>
+            <img
+                class="h-40 lg:h-80 object-cover"
+                src="assets/images/profile/cover.jpg"
+                alt="Cover image">
+
+            <!--            <mat-icon style="width: 100%; height: 100%; object-fit: cover; margin: auto" class="text-gray-300" svgIcon="heroicons_solid:user-circle"></mat-icon>-->
+        </div>
+
+        <div class="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-8 lg:h-18 bg-card">
+            <div class="-mt-26 lg:-mt-22 rounded-full">
+                <img
+                    class="w-32 h-32 rounded-full ring-4 ring-bg-card"
+                    src="assets/images/avatars/male-04.jpg"
+                    alt="User avatar">
+            </div>
+
+            <div class="flex flex-col items-center lg:items-start mt-4 lg:mt-0 lg:ml-8">
+                <div class="text-lg font-bold leading-none">Tino Client</div>
+                <div class="text-secondary">tinoclient@gmail.com</div>
+            </div>
+
+            <div class="hidden lg:flex h-8 mx-8 border-l-2"></div>
+
+            <div class="flex flex-col items-center">
+                <span class="font-bold">200k Ar</span>
+                <span class="text-sm font-medium text-secondary">Soldes</span>
+            </div>
+
+            <div class="flex items-center mt-8 mb-4 lg:m-0 lg:ml-auto space-x-6">
+                <a class="font-medium"
+                   (click)="selectedTabIndex = 0"
+                >
+                    Actualité
+                </a>
+                <a class="font-medium">
+                    Offres
+                </a>
+                <a class="font-medium">
+                    Notifications
+                </a>
+                <a class="font-medium">
+                    Profil
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Main -->
+        <!--                    component list-->
+        <ng-container *ngIf="selectedTabIndex === 0">
+            <app-actuality></app-actuality>
+        </ng-container>
+</div>
+
+

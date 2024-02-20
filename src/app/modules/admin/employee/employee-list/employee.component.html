@@ -1,11 +1,10 @@
 <div class="flex flex-col flex-auto min-w-0">
     <div class="flex-auto p-6 sm:p-10">
-        <div class="flex items-center justify-between w-full">
+        <!-- <div class="flex items-center justify-between w-full">
             <div>
                 <h2 class="text-4xl font-extrabold tracking-tight">Employés</h2>
             </div>
             <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <!-- Search -->
                 <div class="flex items-center">
                     <button [routerLink]='"../add"'
                             class="ml-4"
@@ -16,9 +15,9 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="grid grid-cols-1 gap-8 w-full mt-4">
+        <!-- <div class="grid grid-cols-1 gap-8 w-full mt-4">
             <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table  [dataSource]="data" class="px-5" mat-table >
@@ -80,6 +79,94 @@
                     </table>
                 </div>
             </div>
+        </div> -->
+
+        <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+            <mat-drawer-container class="mat-elevation-z0 flex-auto h-full bg-card dark:bg-transparent"
+                hasBackdrop="false">
+
+                <mat-drawer class="w-full md:w-160 border-l" mode="push" [opened]="matDrawerStatus"
+                    [position]="'end'" [disableClose]="true" #matDrawer>
+                    <employee-details [employeeSelected] (newItemEvent)="closeFuseDrawer($event)"></employee-details>
+                </mat-drawer>
+
+                <mat-drawer-content class="ml-0 flex flex-col">
+                    <div class="flex-auto">
+
+                        <!-- Header -->
+                        <div
+                            class="flex flex-col sm:flex-row md:flex-col flex-auto justify-between py-8 px-6 md:px-8 border-b">
+
+                            <!-- Title -->
+                            <div>
+                                <div class="text-4xl font-extrabold tracking-tight leading-none">Employés</div>
+                                <div class="ml-0.5 font-medium text-secondary">
+                                    {{ employees?.length }} employés
+                                </div>
+                            </div>
+
+                            <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
+                                <!-- Search -->
+                                <div class="flex-auto">
+                                    <mat-form-field
+                                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
+
+                                        <mat-icon matPrefix svgIcon="mat_outline:search"></mat-icon>
+                                        <input matInput [autocomplete]="'off'"
+                                            [placeholder]="'Search contacts'">
+                                    </mat-form-field>
+                                </div>
+                                <!-- Add contact button -->
+                                <button [routerLink]='"../add"' class="ml-4" mat-flat-button [color]="'primary'">
+                                    <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
+                                    <span class="ml-2 mr-1">Ajouter</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <ng-container *ngIf="employees && employees.length > 0; else noDataTemplate">
+                                <ng-container *ngFor="let employee of employees; let i = index;">
+                                    <!-- Group -->
+                                    <ng-container
+                                        *ngIf="i === 0 || employee.nom.charAt(0) !== employees[i - 1].nom.charAt(0)">
+                                        <div
+                                            class="z-10 sticky top-0 -mt-px px-6 py-1 md:px-8 border-t border-b font-medium uppercase text-secondary bg-gray-50 dark:bg-gray-900">
+                                            {{employee.nom.charAt(0)}}
+                                        </div>
+                                    </ng-container>
+                                    <!-- Contact -->
+                                    <a class="z-20 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b hover:bg-gray-100" 
+                                        (click)="openMatDrawer(employee)">
+                                        <div
+                                            class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
+                                            <ng-container *ngIf="employee.avatar">
+                                                <img class="object-cover w-full h-full" [src]="employee.avatar"
+                                                    alt="Contact avatar" />
+                                            </ng-container>
+                                            <ng-container>
+                                                <div
+                                                    class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
+                                                    {{employee.nom.charAt(0)}}
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        <div class="min-w-0 ml-4">
+                                            <div class="font-medium leading-5 truncate">{{employee.nom}}</div>
+                                            <div class="leading-5 truncate text-secondary">{{employee.email}}</div>
+                                        </div>
+                                    </a>
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #noDataTemplate>
+                                <!-- Message à afficher lorsque le tableau est vide ou non défini -->
+                                <p *ngIf="!isLoadingResults" class="text-center text-secondary py-8">Aucune donnée disponible.</p>
+                                <mat-spinner *ngIf="isLoadingResults" class="w-16 h-16 ml-8 mt-8"></mat-spinner>
+                              </ng-template>
+                        </div>
+                    </div>
+                </mat-drawer-content>
+            </mat-drawer-container>
         </div>
     </div>
 </div>

@@ -1,0 +1,110 @@
+<div class="flex flex-auto justify-center w-full max-w-5xl mx-auto p-6 sm:p-8">
+    <div class="hidden lg:flex flex-col items-start mr-8">
+        <fuse-card class="flex flex-col max-w-80 w-full p-8">
+            <div class="text-2xl font-semibold leading-tight">About Me</div>
+            <div class="mt-4">
+                I’m a friendly kitchen assistant who suffers from a severe phobia of buttons.
+                <br><br>
+                Brother of Elijah Jay Watkins, who has phobia of buttons and trust issues.
+            </div>
+            <hr class="w-full border-t my-6">
+            <div class="flex flex-col">
+                <div class="flex items-center">
+                    <mat-icon class="icon-size-5 mr-3" svgIcon="mat_outline:location_on"></mat-icon>
+                    <span class="leading-none">London, UK</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:briefcase'"></mat-icon>
+                    <span class="leading-none">ACME Corp. Lead UX Designer</span>
+                </div>
+                <div class="flex items-center mt-4">
+                    <mat-icon
+                        class="icon-size-5 mr-3"
+                        [svgIcon]="'heroicons_solid:cake'"></mat-icon>
+                    <span class="leading-none">April, 24</span>
+                </div>
+            </div>
+            <button
+                class="px-6 mt-8"
+                mat-flat-button
+                [color]="'primary'">
+                See complete bio
+            </button>
+        </fuse-card>
+    </div>
+    <div class="flex flex-col items-start">
+        <fuse-card class="flex flex-col max-w-140 w-full mb-8">
+            <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-1">
+                <img
+                    class="w-10 h-10 rounded-full mr-4"
+                    src="assets/images/avatars/female-01.jpg"
+                    alt="Card cover image">
+                <div class="flex flex-col">
+                    <span class="font-semibold leading-none">Caroline Lundu</span>
+                    <span class="text-sm text-secondary leading-none mt-1">29 minutes ago</span>
+                </div>
+            </div>
+
+            <div class="m-6 sm:mx-8">
+                <div class="mb-2 flex items-start ">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Coiffure</div>
+                    <div class="ml-2">
+                        <button
+                            class="h-6 min-h-6 px-2 rounded-full bg-hover"
+                            mat-button>
+                            <span class="font-medium text-sm text-secondary">2 heures</span>
+                        </button>
+                    </div>
+                </div>
+
+                <p>
+                    Explorez l'art captivant de la coiffure où l'élégance rencontre la créativité.
+                    Laissez nos experts en coiffure transformer vos cheveux en une œuvre d'art personnalisée.
+                </p>
+
+                <div class="mt-2 text-lg font-medium tracking-tight">
+                  prix : 5000 <span class="text-secondary font-medium text-xl">Ar</span>
+                </div>
+
+                <!--<hr class="border-b my-6">-->
+
+                <div class="flex flex-col sm:flex-row sm:items-center mt-4">
+                    <div class="flex items-center">
+                        <img
+                            class="w-6 h-6 m-0.5 rounded-full text-card ring-2 ring-white"
+                            src="assets/images/avatars/female-02.jpg"
+                            alt="Card cover image">
+                        <img
+                            class="w-6 h-6 m-0.5 rounded-full -ml-3 text-card ring-2 ring-white"
+                            src="assets/images/avatars/female-04.jpg"
+                            alt="Card cover image">
+                        <img
+                            class="w-6 h-6 m-0.5 rounded-full -ml-3 text-card ring-2 ring-white"
+                            src="assets/images/avatars/male-09.jpg"
+                            alt="Card cover image">
+                        <img
+                            class="w-6 h-6 m-0.5 rounded-full -ml-3 text-card ring-2 ring-white"
+                            src="assets/images/avatars/male-07.jpg"
+                            alt="Card cover image">
+                        <div class="text-md tracking-tight ml-3 text-secondary">4 employés disponibles</div>
+                    </div>
+                    <div class="hidden sm:flex flex-auto"></div>
+                    <div class="flex items-center sm:mt-0">
+                        <button mat-stroked-button
+                               >
+                                <span class="px-2 ">
+                                    Résérver
+                                </span>
+                            <mat-icon svgIcon="mat_outline:shopping_cart"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </fuse-card>
+    </div>
+</div>
+
+
+

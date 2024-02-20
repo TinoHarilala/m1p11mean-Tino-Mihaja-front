@@ -26,7 +26,7 @@ export class FuseDrawerComponent implements OnChanges, OnInit, OnDestroy
     @Input() name: string = this._fuseUtilsService.randomId();
     @Input() opened: boolean = false;
     @Input() position: FuseDrawerPosition = 'left';
-    @Input() transparentOverlay: boolean = false;
+    @Input() transparentOverlay: boolean = true;
     @Output() readonly fixedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() readonly modeChanged: EventEmitter<FuseDrawerMode> = new EventEmitter<FuseDrawerMode>();
     @Output() readonly openedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
