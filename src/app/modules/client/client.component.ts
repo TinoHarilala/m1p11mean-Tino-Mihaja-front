@@ -4,6 +4,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {ActualityComponent} from "./actuality/actuality.component";
+import { Client } from 'app/core/model/client.model';
 
 @Component({
     selector: 'app-client',
@@ -21,5 +22,9 @@ import {ActualityComponent} from "./actuality/actuality.component";
 })
 export class ClientComponent {
     selectedTabIndex: number = 0;
+    client: Client;
 
+    ngOnInit(){
+        this.client = JSON.parse(sessionStorage.getItem('session'));
+    }
 }
