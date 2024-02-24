@@ -1,0 +1,27 @@
+<p class="text-4xl text-center mt-5 text-boad">Liste offre spéciale</p>
+<div class="flex flex-auto justify-center w-full max-w-5xl mx-auto p-6 pt-4 sm:p-8">
+    <mat-accordion class="max-w-full w-10/12">
+        <ng-container *ngFor="let offer of offers">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header [collapsedHeight]="'56px'">
+                    <mat-panel-title>
+                        {{offer.title}}
+                        <button class="h-6 mx-4 min-h-6 px-2 rounded-full bg-yellow-200 bg-hover" mat-button>
+                            <span class="font-medium text-sm text-secondary">remise de {{ offer.remise }} %</span>
+                        </button>
+                        <p>Du {{offer.start | date}} au {{ offer.end | date }}</p>
+
+                    </mat-panel-title>
+                    
+                </mat-expansion-panel-header>
+
+                <div class="grid grid-cols-1 divide-y">
+                    <p  class="py-4" *ngFor="let service of offer.services">{{ service.nom }} prix : <span class="font-semibold">{{ service.prix }} Ar</span>&nbsp; ({{ service.duree }} heures)</p>
+                </div>
+            </mat-expansion-panel>
+        </ng-container>
+        <div class="relative">
+            <mat-spinner class="absolute top-0 left-0 rigth-0 transform-x-1/2" *ngIf="isLoading" class="w-16 h-16 ml-8 mt-8"></mat-spinner>
+        </div>
+    </mat-accordion>
+</div>
