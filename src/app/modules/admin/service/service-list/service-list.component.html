@@ -10,55 +10,82 @@
         </div>
 
         <div class="grid grid-cols-3 gap-4 mt-4">
-            <div (click)="openAddServiceModal()" class="sm:col-span-2 lg:col-span-1 min-h-60 flex flex-col flex-auto flex justify-center items-center border-dashed border-2 border-gray-300 rounded-2xl overflow-hidden hover:bg-gray-200 hover:cursor-pointer">
+            <div (click)="openAddServiceModal()"
+                class="sm:col-span-2 lg:col-span-1 min-h-60 flex flex-col flex-auto flex justify-center items-center border-dashed border-2 border-gray-300 rounded-2xl overflow-hidden hover:bg-gray-200 hover:cursor-pointer">
                 <mat-icon class="text-gray-400 icon-size-16" svgIcon="heroicons_outline:plus"></mat-icon>
             </div>
-            <div *ngFor="let service of services" class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                <div class="flex items-start justify-between m-6 mb-0">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ service.nom }}</div>
-                    <div class="ml-2">
-                        <button
-                            class="h-6 min-h-6 px-2 rounded-full bg-hover"
-                            mat-button >
-                            <span class="font-medium text-sm text-secondary">{{ service.duree }} heures</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col lg:flex-row lg:items-center mx-6 pb-4 mt-3">
-                    <div class="text-5xl font-bold tracking-tighter leading-tight">{{ service.prix }} Ar</div>
-                    <div class="flex lg:flex-col lg:ml-3">
-                        <div class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
-                            <span class="font-medium text-red-500">{{ service.commission }}%</span>
-                            <span class="ml-1">Commission</span>
+            <div *ngFor="let service of services"
+                class="sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <div class="cursor-pointer" (click)="editService(service._id, service)">
+                    <div class="flex items-start justify-between m-6 mb-0">
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">{{ service.nom }}</div>
+                        <div class="ml-2">
+                            <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button>
+                                <span class="font-medium text-sm text-secondary">{{ service.duree }} heures</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="w-full h-1 mt-3 border-t-2"></div>
-                <div *ngIf="service?.employe?.length" class="flex items-center mx-6 my-4 -space-x-1">
-                    <ng-container *ngFor="let employee of service.employe" >
-                            <!-- need avatar --> 
-                            <mat-icon matTooltip="{{ employee.nom }}" 
-                            class="cursor-pointer flex-0 w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent object-cover icon-size-10" 
-                            svgIcon="heroicons_solid:user-circle"></mat-icon>
-                    </ng-container>
-                    <ng-container *ngIf="service?.employe?.length > 5">
-                        <div class="flex flex-0 items-center justify-center w-9 h-9 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent bg-gray-200 text-gray-500">
-                            <div class="text-md font-semibold">
-                                +{{ service?.employe.slice(5).length }}
+                    <div class="flex flex-col lg:flex-row lg:items-center mx-6 pb-4 mt-3">
+                        <div class="text-5xl font-bold tracking-tighter leading-tight">{{ service.prix }} Ar</div>
+                        <div class="flex lg:flex-col lg:ml-3">
+                            <div
+                                class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                                <span class="font-medium text-red-500">{{ service.commission }}%</span>
+                                <span class="ml-1">Commission</span>
                             </div>
                         </div>
-                    </ng-container>
+                    </div>
+                    <div class="w-full h-1 mt-3 border-t-2"></div>
+                    <div *ngIf="service?.employe?.length" class="flex items-center mx-6 my-4 -space-x-1">
+                        <ng-container *ngFor="let employee of service.employe">
+                            <!-- need avatar -->
+                            <mat-icon matTooltip="{{ employee.nom }}"
+                                class="cursor-pointer flex-0 w-8 h-8 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent object-cover icon-size-10"
+                                svgIcon="heroicons_solid:user-circle"></mat-icon>
+                        </ng-container>
+                        <ng-container *ngIf="service?.employe?.length > 5">
+                            <div
+                                class="flex flex-0 items-center justify-center w-9 h-9 rounded-full ring ring-offset-1 ring-bg-card ring-offset-transparent bg-gray-200 text-gray-500">
+                                <div class="text-md font-semibold">
+                                    +{{ service?.employe.slice(5).length }}
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="service?.employe?.length === 0" class="my-6 text-secondary text-center">
+                        Aucun employé
+                    </div>
+                    <div class="flex items-center ml-6 mb-6 text-md font-md">
+                        <div class="text-secondary">{{service?.employe?.length}} employés</div>
+                        <!-- <div class="text-right ml-50">
+                            <button
+                                type="button" (click)="editService(service._id)"
+                                class="h-10 rounded mat-elevation-z0 bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-indigo-50"
+                                mat-mini-fab
+                                color="primary">
+                                <mat-icon class="icon-size-5" svgIcon="mat_outline:edit"></mat-icon>
+                            </button>
+                        </div>
+    
+                        <div class="text-right">
+    
+                            <button
+                                type="button" (click)="deleteService(service._id)"
+                                class="ml-2 h-10 rounded mat-elevation-z0 bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-50"
+                                mat-mini-fab
+                                color="primary">
+                                <mat-icon class="icon-size-5" svgIcon="mat_outline:delete"></mat-icon>
+                            </button>
+                        </div>
+                    </div> -->
+                    </div>
                 </div>
-                <div *ngIf="service?.employe?.length === 0" class="my-6 text-secondary text-center">
-                    Aucun employé
+                <div class="relative sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden"
+                    *ngIf="isLoading">
+                    <mat-spinner
+                        class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[32px] h-[32px]">
+                    </mat-spinner>
                 </div>
-                <div class="flex items-center ml-6 mb-6 text-md font-md">
-                    <div class="text-secondary">{{service?.employe?.length}} employés</div>
-                </div>
-            </div>
-            <div class="relative sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden" *ngIf="isLoading">
-                <mat-spinner class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[32px] h-[32px]"></mat-spinner>
             </div>
         </div>
     </div>
-</div>

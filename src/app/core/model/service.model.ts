@@ -7,4 +7,5 @@ export class ServiceModel extends BaseModel {
     duree: Number
     commission: Number
     image?: string
+    employe?: any[]
 }

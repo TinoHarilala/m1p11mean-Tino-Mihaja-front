@@ -53,6 +53,21 @@ export class ServiceListComponent implements OnInit {
         )
     }
 
+    editService(id: any, service: ServiceModel){
+        const dialogRef = this.dialog.open(ServiceAddComponent, {
+            autoFocus: false,
+            width: '600px',
+            data: {
+                service
+            }
+        });
+        const component: ServiceAddComponent = dialogRef.componentInstance
+        component.id = id
+        dialogRef.afterClosed().subscribe(item => {
+            this.getService();
+        });
+    }
+
     openAddServiceModal() {
         const dialogRef = this.dialog.open(ServiceAddComponent, {
             autoFocus: false,

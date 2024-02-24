@@ -16,8 +16,23 @@ export class Service {
         return this.http.get<ServiceModel[]>(url);
     }
 
-    create(body: ServiceModel){
+    create(body: any){
         const url = [environment.apiUrl, 'create.service'].join('/');
         return this.http.post(url, body);
+    }
+
+    delete(id){
+        const url = [environment.apiUrl, 'delete.service',id].join('/');
+        return this.http.get<ServiceModel[]>(url);
+    }
+
+    update(body: ServiceModel){
+        const url = [environment.apiUrl, 'update.service'].join('/');
+        return this.http.post(url, body);
+    }
+
+    getById(id){
+        const url = [environment.apiUrl, 'service', id].join('/');
+        return this.http.get<any>(url);
     }
 }

@@ -1,17 +1,18 @@
 import { NgFor, NgIf } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, Inject, Input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatInputModule } from "@angular/material/input";
 import { catchError, of, Subject, tap } from "rxjs";
 import { AdminService } from "../../admin.services";
 import { User } from "app/core/model/user.model";
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Service } from "../service.service";
+import { lowerFirst } from "lodash-es";
 
 @Component({
     selector: 'service-add',
@@ -38,20 +39,49 @@ export class ServiceAddComponent {
     image: string = '';
     toggle: boolean;
     serviceForm: FormGroup;
-    availableEmployee: User[] = [];
-    selectedEmployee: User[] = [];
+    availableEmployee: any[] = [];
+    selectedEmployee: any[] = [];
     isLoading: boolean = false;
+    @Input() id: any
+    employe: any[];
 
     constructor(
         public dialogRef: MatDialogRef<ServiceAddComponent>,
         private formBuilder: FormBuilder,
         private adminService: AdminService,
-        private sevice: Service
+        private service: Service,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
     ngOnInit() {
         this.initForm();
         this.getEmployee();
+        this.setService();
+    }
+
+    setService() {
+        this.serviceForm.patchValue({
+            name: this.data.service.nom,
+            price: this.data.service.prix,
+            duration: this.data.service.duree,
+            commission: this.data.service.commission
+        })
+    }
+
+    update() {
+        const formValue = this.serviceForm.getRawValue()
+        const body = {
+            _id: this.id,
+            nom: formValue.name,
+            prix: formValue.price,
+            duree: formValue.duration,
+            commission: formValue.commission
+        }
+        this.service.update(body).subscribe(res => {
+            if (res) {
+                this.dialogRef.close(true)
+            }
+        })
     }
 
     private initForm() {
@@ -64,6 +94,9 @@ export class ServiceAddComponent {
     }
 
     private getEmployee() {
+        if (this.id) {
+            // this.availableEmployee = []
+        }
         this.adminService.getEmployeeList().subscribe(
             (res: any) => {
                 this.availableEmployee = res.employe
@@ -92,6 +125,17 @@ export class ServiceAddComponent {
             // Read the file as the
             reader.readAsDataURL(file);
         });
+    }
+
+    private getSelectedEmployee() {
+        this.service.getById(this.id).subscribe(
+            (res) => {
+                this.selectedEmployee = res.service[0].employe
+                this.availableEmployee = this.availableEmployee.filter(employe => {
+                    return !this.selectedEmployee.some(selected => selected._id === employe._id);
+                  });
+            }
+        )
     }
 
     uploadImage(fileList: FileList): void {
@@ -133,29 +177,43 @@ export class ServiceAddComponent {
     }
 
     save() {
+        this.employe = this.selectedEmployee.map(result => result._id)
         const inputValue = this.serviceForm.getRawValue();
         const body = {
-            nom: inputValue.name,
-            prix: inputValue.price,
-            duree: inputValue.duration,
-            commission: inputValue.commission  
+            service: {
+                nom: inputValue.name,
+                prix: inputValue.price,
+                duree: inputValue.duration,
+                commission: inputValue.commission,
+            },
             // image
-            // employees      
+            employe: this.employe
         }
         console.log(body);
-        
-         this.sevice.create(body).pipe(
-            tap(()=>{
+
+        this.service.create(body).pipe(
+            tap(() => {
                 this.dialogRef.close();
             }),
             catchError(err => {
                 console.log(err);
                 return of(null)
             })
-        ).subscribe()       
+        ).subscribe()
     }
 
     toggleButton() {
         this.toggle = !this.toggle;
+        if (this.id) {
+            this.getSelectedEmployee();
+        }
+    }
+
+    deleteService(){
+        this.service.delete(this.id).subscribe(res=>{
+            if (res){
+                this.dialogRef.close()
+            }
+        })
     }
 }
