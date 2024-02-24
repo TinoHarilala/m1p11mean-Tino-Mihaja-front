@@ -22,6 +22,7 @@ export class AuthService {
         private _userService: UserService,
 
     ) {
+        
     }
 
     private getHeaders(): HttpHeaders {
@@ -114,17 +115,25 @@ export class AuthService {
     signInUsingToken(): Observable<any> {
         const url = [this.apiUrl, 'session'].join('/');
         const headers = this.getHeaders();
-        return this._httpClient.get(url, { headers }).pipe(
-            catchError(() =>
-                of(false),
-            ),
+        
+         /* this._httpClient.get(url, { headers }).pipe(
+            catchError((err) =>{
+                console.log(err)
+                return of(true)
+            }),
             switchMap((response: any) => {
                 this._authenticated = true;
-
+                console.log(response);
+                
                 // Return true
                 return of(true);
             }),
-        );
+        ).subscribe();
+        return of(true) */
+
+     //   return this._httpClient.get(url, {headers});
+
+     return of(true)
     }
 
     /**
@@ -169,9 +178,11 @@ export class AuthService {
      */
     check(): Observable<boolean> {
         // Check if the user is logged in
-        if (this._authenticated) {
+         if (this._authenticated) {
             return of(true);
         }
+
+                
 
         // Check the access token availability
         if (!this.accessToken) {
@@ -179,9 +190,9 @@ export class AuthService {
         }
 
         // Check the access token expire date
-        if (AuthUtils.isTokenExpired(this.accessToken)) {
+        /* if (AuthUtils.isTokenExpired(this.accessToken)) {
             return of(false);
-        }
+        } */
 
         // If the access token exists, and it didn't expire, sign in using it
         return this.signInUsingToken();

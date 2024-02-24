@@ -35,7 +35,9 @@
                 >
                     Actualité
                 </a>
-                <a class="font-medium">
+                <a class="font-medium"
+                    (click)="selectedTabIndex = 1"
+                >
                     Offres
                 </a>
                 <a class="font-medium">
@@ -48,6 +50,10 @@
         <!--                    component list-->
         <ng-container *ngIf="selectedTabIndex === 0">
             <app-actuality></app-actuality>
+        </ng-container>
+
+        <ng-container *ngIf="selectedTabIndex === 1">
+            <app-offer></app-offer>
         </ng-container>
 </div>
 

@@ -20,7 +20,7 @@ export class ClientService {
         return this.http.get(url);
     }
 
-    makeAnAppointment(body: {idClient: string, dateTime: string, service: string}){
+    makeAnAppointment(body: any){
         const url = [environment.apiUrl, 'client.rendezVous'].join('/');
         return this.http.post(url, body)
     }
@@ -28,5 +28,11 @@ export class ClientService {
     unavailability(body){
         const url = [environment.apiUrl, 'indisponibilite'].join('/');
         return this.http.post(url, body)
+    }
+
+    getSpecialOffer(date: string, id_service: string) {
+        const url = [environment.apiUrl, 'valide.offreSpecial', date, id_service].join('/');
+        return this.http.get(url);
+
     }
 }

@@ -5,6 +5,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {ActualityComponent} from "./actuality/actuality.component";
 import { Client } from 'app/core/model/client.model';
+import { OfferComponent } from './offer/offer.component';
 
 @Component({
     selector: 'app-client',
@@ -16,7 +17,8 @@ import { Client } from 'app/core/model/client.model';
         RouterLink,
         RouterOutlet,
         NgIf,
-        ActualityComponent
+        ActualityComponent,
+        OfferComponent
     ],
     standalone: true
 })

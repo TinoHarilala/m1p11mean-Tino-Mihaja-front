@@ -30,8 +30,9 @@ import { CalendarComponent } from '../calendar/calendar.component';
     standalone: true
 })
 export class ActualityComponent {
-    services: ServiceModel;
-    user: Client
+    services: ServiceModel[];
+    user: Client;
+    isLoading: boolean = false;
 
     constructor(
         private clientService: ClientService,
@@ -39,8 +40,10 @@ export class ActualityComponent {
     ) { }
 
     ngOnInit() {
+        this.isLoading = true
         this.clientService.getService().subscribe(
             (res: any) => {
+                this.isLoading = false
                 this.services = res.service;
             }
         )
@@ -50,7 +53,7 @@ export class ActualityComponent {
     reserve(service: ServiceModel) {
         const dialogRef = this.dialog.open(CalendarComponent, {
             autoFocus: false,
-            width: '700px',
+            width: '900px',
             data: service
         });
 
