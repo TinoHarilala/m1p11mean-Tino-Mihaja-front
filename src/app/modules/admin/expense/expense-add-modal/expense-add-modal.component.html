@@ -1,0 +1,38 @@
+<h1 class="text-2xl font-semibold" *ngIf="!id">Ajout dépense</h1>
+<h1 class="text-2xl font-semibold" *ngIf="id">Modifier dépense</h1>
+<div class="row mt-4">
+    <form [formGroup]="expenseForm" (ngSubmit)="save()">
+        <div class="grid grid-cols-2 gap-4">
+
+            <mat-form-field class="w-full">
+                <mat-label>Description</mat-label>
+                <input
+                    id="description"
+                    matInput
+                    [formControlName]="'description'">
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Montant</mat-label>
+                <input
+                    id="amount"
+                    matInput
+                    [formControlName]="'montant'">
+            </mat-form-field>
+        </div>
+        <div class="flex justify-end mt-4" *ngIf="!id">
+            <div>
+                <button mat-dialog-close mat-flat-button type="button"
+                        class="mr-2">Fermer</button>
+                <button mat-flat-button type="submit" color="primary">Ajouter</button>
+            </div>
+        </div>
+    </form>
+    <div class="flex justify-end mt-4" *ngIf="id">
+        <div>
+            <button mat-dialog-close mat-flat-button type="button"
+                    class="mr-2">Fermer</button>
+            <button mat-flat-button (click)="editExpense()" color="primary">Modifier</button>
+        </div>
+    </div>
+</div>

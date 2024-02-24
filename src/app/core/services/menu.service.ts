@@ -40,6 +40,13 @@ export class MenuService {
                     type : 'basic',
                     link : '/service/list'
                 }]
+            },
+            {
+                id   : 'expense',
+                title: 'Dépenses',
+                type : 'basic',
+                icon : 'heroicons_outline:banknotes',
+                link : '/expense/list',
             }
         ]
         return menu
