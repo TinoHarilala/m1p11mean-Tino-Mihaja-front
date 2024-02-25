@@ -47,6 +47,13 @@ export class MenuService {
                 type : 'basic',
                 icon : 'heroicons_outline:banknotes',
                 link : '/expense/list',
+            },
+            {
+                id   : 'offer',
+                title: 'Offres',
+                type : 'basic',
+                icon : 'mat_outline:local_offer',
+                link : '/offer/list',
             }
         ]
         return menu

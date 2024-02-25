@@ -1,0 +1,47 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex items-center justify-between w-full mb-4">
+            <div>
+                <p class="text-4xl font-extrabold tracking-tight">Liste offre spéciale</p>
+            </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <div class="flex items-center">
+                    <button (click)="openAddModal()" class="ml-4" mat-flat-button [color]="'primary'">
+                        <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
+                        <span class="ml-2 mr-1">Ajouter</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <mat-accordion class="max-w-full w-10/12">
+            <ng-container *ngFor="let offer of offers">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header [collapsedHeight]="'56px'">
+                        <mat-panel-title>
+                            {{ offer.title }}
+                            <button class="h-6 mx-4 min-h-6 px-2 rounded-full bg-yellow-200 bg-hover" mat-button>
+                                <span class="font-medium text-sm text-secondary">remise de {{ offer.remise }} %</span>
+                            </button>
+                            <p>Du {{ offer.start | date }} au {{ offer.end | date }}</p>
+
+                        </mat-panel-title>
+
+                    </mat-expansion-panel-header>
+
+                    <div class="grid grid-cols-1 divide-y">
+                        <p class="py-4" *ngFor="let service of offer.services"> {{ service.nom }} prix : {{ service.prix
+                            }}<span class="font-semibold">
+                                Ar</span>&nbsp;</p>
+                    </div>
+                </mat-expansion-panel>
+            </ng-container>
+            <div *ngIf="offers?.length === 0" class="my-6 text-secondary text-center">
+                Aucun employé
+            </div>
+            <div class="relative">
+                <mat-spinner class="absolute top-0 left-0 rigth-0 transform-x-1/2" *ngIf="isLoading"
+                    class="w-16 h-16 ml-8 mt-8"></mat-spinner>
+            </div>
+        </mat-accordion>
+    </div>
+</div>

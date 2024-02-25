@@ -1,0 +1,83 @@
+<h1 class="text-2xl font-semibold" *ngIf="!id">Ajout offre</h1>
+<h1 class="text-2xl font-semibold" *ngIf="id">Modifier offre</h1>
+<div class="row mt-4">
+    <form [formGroup]="offerForm" (ngSubmit)="save()">
+        <div class="flex items-start">
+            <div class="w-1/2 grid grid-cols-2 gap-4 mr-2">
+
+                <mat-form-field class="w-full">
+                    <mat-label>Titre</mat-label>
+                    <input id="title" matInput [formControlName]="'title'">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Remise</mat-label>
+                    <input id="remise" matInput [formControlName]="'remise'">
+                </mat-form-field>
+
+                <mat-form-field class="w-full col-span-2">
+                    <mat-label>Description</mat-label>
+                    <input id="description" matInput [formControlName]="'description'">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Début</mat-label>
+                    <input readonly [formControlName]="'start'" (click)="start.open()" matInput [matDatepicker]="start">
+                    <mat-datepicker-toggle matIconSuffix [for]="start"></mat-datepicker-toggle>
+                    <mat-datepicker #start></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Fin</mat-label>
+                    <input readonly [formControlName]="'end'" [min]="offerForm.get('start').value" (click)="end.open()"
+                        matInput [matDatepicker]="end">
+                    <mat-datepicker-toggle matIconSuffix [for]="end"></mat-datepicker-toggle>
+                    <mat-datepicker #end></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div cdkDropListGroup class="max-h-60 w-1/2 mt-5 grid grid-cols-2 gap-4 ml-2">
+                <div class="border border-gray-300 rounded-md px-4 py-4 overflow-auto">
+                    <h2 class="text-secondary text-lg text-center mb-4">Serivces disponibles</h2>
+                    <div #todoList="cdkDropList" (cdkDropListDropped)="drop($event, availableServices)"
+                        [cdkDropListData]="availableServices" cdkDropList class="example-list min-h-50">
+                        <div *ngFor="let service of availableServices" cdkDrag class="bg-[#e2e8f0] cursor-move
+                    rounded-2xl text-center font-medium text-gray-600 text-md px-2 py-2 mt-2">
+                            {{ service.nom }}
+                        </div>
+                    </div>
+
+                    <div class="relative sm:col-span-2 lg:col-span-1 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden"
+                        *ngIf="isLoading">
+                        <mat-spinner class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-5 h-5">
+                        </mat-spinner>
+                    </div>
+                </div>
+
+                <div class="border border-gray-300 rounded-md px-4 py-4 overflow-auto">
+                    <h2 class="text-secondary text-lg text-center mb-4">Service sélectionnés</h2>
+                    <div #doneList="cdkDropList" (cdkDropListDropped)="drop($event, selectedServices)"
+                        [cdkDropListData]="selectedServices" cdkDropList class="example-list min-h-50">
+                        <div *ngFor="let service of selectedServices" cdkDrag class="bg-primary cursor-move
+                     rounded-2xl text-center font-medium text-white text-md  px-2 py-2 mt-2">
+                            {{ service.nom }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="h-20 flex justify-end items-end mt-4" *ngIf="id">
+            <div>
+                <button mat-dialog-close mat-flat-button type="button" class="mr-2">Fermer</button>
+                <button mat-flat-button (click)="editExpense()" color="primary">Modifier</button>
+            </div>
+        </div>
+        <div class="h-20 flex justify-end items-end mt-4" *ngIf="!id">
+            <div>
+                <button mat-dialog-close mat-flat-button type="button" class="mr-2">Fermer</button>
+                <button mat-flat-button type="submit" color="primary">Ajouter</button>
+            </div>
+        </div>
+    </form>
+</div>
