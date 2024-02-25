@@ -72,7 +72,7 @@ export const appRoutes: Route[] = [
             {path: 'service', loadChildren: () => import('app/modules/admin/service/service.routes')},
             {path: 'expense', loadChildren: () => import('app/modules/admin/expense/expense.routes')},
             {path: 'offer', loadChildren: () => import('app/modules/admin/offer/offer.routes')},
-        
+            {path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes')},
         ]
     }
 ];

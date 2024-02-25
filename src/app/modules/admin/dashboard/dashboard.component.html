@@ -1,0 +1,91 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+        <div>
+            <div class="text-3xl font-semibold tracking-tight mb-4 leading-8">Tabeau de bord analytique</div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between m-6 mb-0">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Réservation</div>
+                    <div class="ml-2">
+                        <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button>
+                            <span class="font-medium text-sm text-secondary">25 février 2024</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row lg:items-center mx-6 my-4">
+                    <div class="text-6xl text-center font-bold tracking-tighter text-secondary leading-tight">10 personnes</div>
+                    <div *ngIf="checkValue" class="flex lg:flex-col lg:ml-3">
+                        <mat-icon class="icon-size-5 text-green-500" svgIcon="heroicons_outline:arrow-trending-up"></mat-icon>
+                        <div
+                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                            <span class="font-medium text-green-500">{{getReservationDifference()}}%</span>
+                            <span class="ml-1">en dessus de l'objectif</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!checkValue" class="flex lg:flex-col lg:ml-3">
+                        <mat-icon class="icon-size-5 text-red-500" svgIcon="heroicons_outline:arrow-trending-up"></mat-icon>
+                        <div
+                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                            <span class="font-medium text-red-500">{{getReservationDifference()}}%</span>
+                            <span class="ml-1">en dessous de l'objectif</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex items-start justify-between m-6 mb-0">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Chiffre d'affaire</div>
+                    <div class="ml-2">
+                        <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button>
+                            <span class="font-medium text-sm text-secondary">25 février 2024</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex flex-col lg:flex-row lg:items-center mx-6 my-4">
+                    <div class="text-6xl text-secondary text-center font-bold tracking-tighter leading-tight">200 000 Ar</div>
+                    <div *ngIf="checkTurnoverValue" class="flex lg:flex-col lg:ml-3">
+                        <mat-icon class="icon-size-5 text-green-500" svgIcon="heroicons_outline:arrow-trending-down">
+                        </mat-icon>
+                        <div
+                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                            <span class="font-medium text-green-500">{{ getTurnoverDifference() }}%</span>
+                            <span class="ml-1">en dessus de l'objectif</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!checkTurnoverValue" class="flex lg:flex-col lg:ml-3">
+                        <mat-icon class="icon-size-5 text-red-500" svgIcon="heroicons_outline:arrow-trending-down">
+                        </mat-icon>
+                        <div
+                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
+                            <span class="font-medium text-red-500">{{ getTurnoverDifference() }}%</span>
+                            <span class="ml-1">en dessous de l'objectif</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col flex-auto">
+            <div class="flex p-4 flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex py-3 flex-col sm:flex-row items-start justify-between">
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Statistique de l'année 2024</div>
+                    <div class="mt-3 sm:mt-0 sm:ml-2">
+                        <mat-button-toggle-group [(ngModel)]="selectedToggleValue" (change)="onToggleChange()"
+                            #githubIssuesWeekSelector="matButtonToggleGroup">
+                            <mat-button-toggle value="turnover">Chiffre d'affaire</mat-button-toggle>
+                            <mat-button-toggle value="reservation">Réservations</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                    [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis" [legend]="chartOptions.legend"
+                    [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
+            </div>
+        </div>
+    </div>
+</div>

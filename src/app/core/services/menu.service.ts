@@ -9,6 +9,13 @@ export class MenuService {
         const menu: FuseNavigationItem[] = 
         [
             {
+                id   : 'dashboad',
+                title: 'Tableau de bord',
+                type : 'basic',
+                icon : 'mat_outline:dashboard',
+                link : '/dashboard/list'
+            },
+            {
                 id   : 'employee',
                 title: 'Employés',
                 type : 'collapsable',
