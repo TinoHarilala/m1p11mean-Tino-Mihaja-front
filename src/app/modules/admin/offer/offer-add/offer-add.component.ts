@@ -41,17 +41,18 @@ import { DateTime } from 'luxon';
 })
 export class OfferAddComponent {
     offerForm: FormGroup;
-    id: number;
     services: Service[] = [];
     selectedServices: string[] = [];
     availableServices: ServiceModel[] = [];
     isLoading: boolean = false;
+    @Input() id: number;
 
     constructor(
         private offerService: OfferService,
         private formBuilder: FormBuilder,
         private Service: Service,
         public dialogRef: MatDialogRef<OfferAddComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {
     }
 
@@ -65,7 +66,21 @@ export class OfferAddComponent {
             end: [null, Validators.required]
         })
         this.getService();
+        if (this.id) {
+            this.selectedServices = this.data.service;
+            this.setDataOffer();
+        }
+    }
 
+    private setDataOffer() {
+        const offer = this.data?.offer;
+        this.offerForm.patchValue({
+            title: offer.title,
+            description: offer.description,
+            remise: offer.remise,
+            start: offer.start,
+            end: offer.end
+        })
     }
 
     private getService() {
@@ -74,6 +89,11 @@ export class OfferAddComponent {
             (res: any) => {
                 this.isLoading = false;
                 this.availableServices = res.service
+                if (this.id) {
+                    this.availableServices = res.service.filter(employe => {
+                        return !this.selectedServices.some((selected: any) => selected._id === employe._id);
+                    });
+                }
             }
         )
     }
@@ -83,6 +103,7 @@ export class OfferAddComponent {
     }
 
     save() {
+        this.isLoading = true;
         const services = this.getIdsFromSelectedServices();
         const inputValue = this.offerForm.getRawValue();
         const body = {
@@ -90,21 +111,43 @@ export class OfferAddComponent {
             description: inputValue.description,
             services: services,
             remise: inputValue.remise,
-            start: DateTime.fromISO(inputValue.start ).toString(),
-            end:  DateTime.fromISO(inputValue.end ).toString()
+            start: DateTime.fromISO(inputValue.start).toString(),
+            end: DateTime.fromISO(inputValue.end).toString()
         }
 
-        this.offerService.createOffer(body).pipe(
-            tap(()=>{
-                alert('Ajout effectuer avec succès')
-                this.dialogRef.close();
-            }),
-            catchError(()=>{
-                alert('Une erreur s\'est produte')
-                return of(null)
-            })
-        ).subscribe()
+        if (this.id) {
+            if (this.offerForm.valid) {
+                this.offerService.updateOffer({ ...body, _id: this.id }).pipe(
+                    tap(() => {
+                        this.dialogRef.close();
+                        this.isLoading = false;
 
+                        alert('Modification effectuer')
+                    }),
+                    catchError(err => {
+                        // error
+                        this.isLoading = true;
+                        return of(null)
+                    })
+                ).subscribe()
+            }
+        }
+        else {
+            if (this.offerForm.valid) {
+                this.offerService.createOffer(body).pipe(
+                    tap(() => {
+                        alert('Ajout effectuer avec succès')
+                        this.isLoading = true;
+                        this.dialogRef.close();
+                    }),
+                    catchError(() => {
+                        alert('Une erreur s\'est produte')
+                        this.isLoading = true;
+                        return of(null)
+                    })
+                ).subscribe()
+            }
+        }
     }
 
     drop(event: CdkDragDrop<string[]>, list: any[]) {

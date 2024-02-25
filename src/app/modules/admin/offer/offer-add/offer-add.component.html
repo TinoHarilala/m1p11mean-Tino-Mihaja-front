@@ -37,7 +37,7 @@
             </div>
 
             <div cdkDropListGroup class="max-h-60 w-1/2 mt-5 grid grid-cols-2 gap-4 ml-2">
-                <div class="border border-gray-300 rounded-md px-4 py-4 overflow-auto">
+                <div class="border border-gray-300 rounded-md  max-h-60 px-4 py-4 overflow-auto">
                     <h2 class="text-secondary text-lg text-center mb-4">Serivces disponibles</h2>
                     <div #todoList="cdkDropList" (cdkDropListDropped)="drop($event, availableServices)"
                         [cdkDropListData]="availableServices" cdkDropList class="example-list min-h-50">
@@ -54,23 +54,31 @@
                     </div>
                 </div>
 
-                <div class="border border-gray-300 rounded-md px-4 py-4 overflow-auto">
+                <div class="border border-gray-300 rounded-md px-4 py-4 max-h-60 overflow-auto">
                     <h2 class="text-secondary text-lg text-center mb-4">Service sélectionnés</h2>
                     <div #doneList="cdkDropList" (cdkDropListDropped)="drop($event, selectedServices)"
                         [cdkDropListData]="selectedServices" cdkDropList class="example-list min-h-50">
-                        <div *ngFor="let service of selectedServices" cdkDrag class="bg-primary cursor-move
-                     rounded-2xl text-center font-medium text-white text-md  px-2 py-2 mt-2">
-                            {{ service.nom }}
-                        </div>
+                        <ng-container *ngFor="let service of selectedServices">
+                            <div *ngIf="service.isDeleted === 0" cdkDrag class="bg-primary cursor-move
+                            rounded-2xl text-center font-medium text-white text-md  px-2 py-2 mt-2">
+                                   {{ service.nom }}
+                               </div>
+                        </ng-container>
+                        
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="h-20 flex justify-end items-end mt-4" *ngIf="id">
+        <div class="flex justify-end items-end mt-4" *ngIf="id">
             <div>
                 <button mat-dialog-close mat-flat-button type="button" class="mr-2">Fermer</button>
-                <button mat-flat-button (click)="editExpense()" color="primary">Modifier</button>
+                <button class="min-w-24" [disabled]="offerForm.invalid || selectedServices.length === 0 || isLoading"
+                    mat-flat-button type="submit" color="primary" >
+                    <span *ngIf="!isLoading">Modifier</span> 
+                    <mat-progress-spinner *ngIf="isLoading" [diameter]="18" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
             </div>
         </div>
         <div class="h-20 flex justify-end items-end mt-4" *ngIf="!id">

@@ -13,6 +13,7 @@ import { OfferService } from '../offer.serice';
 import { OfferModel } from 'app/core/model/offer.model';
 import { MatDialog } from '@angular/material/dialog';
 import { OfferAddComponent } from '../offer-add/offer-add.component';
+import { ServiceModel } from 'app/core/model/service.model';
 
 @Component({
     selector: 'app-offer',
@@ -88,5 +89,21 @@ export class OfferComponent {
                 }
             }
         );
+    }
+
+    openEditModal(id: any, service: ServiceModel[], offer : OfferModel){
+        const dialogRef = this.dialog.open(OfferAddComponent, {
+            autoFocus: false,
+            width: '900px',
+            data: {
+                service,
+                offer
+            }
+        });
+        const component: OfferAddComponent = dialogRef.componentInstance
+        component.id = id
+        dialogRef.afterClosed().subscribe(item => {
+            this.getOfferList();
+        });
     }
 }

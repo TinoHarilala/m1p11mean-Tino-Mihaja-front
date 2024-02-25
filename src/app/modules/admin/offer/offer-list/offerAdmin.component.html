@@ -27,14 +27,21 @@
                         </mat-panel-title>
                     </mat-expansion-panel-header>
 
+                    <div>
+                       <span class="underline text-neutral-800 font-semibold">Description :</span>  {{ offer?.description }}
+                    </div>
+
                     <div class="grid grid-cols-1 divide-y">
-                        <p class="py-4" *ngFor="let service of offer.services"> {{ service.nom }} prix : {{ service.prix
-                            }}<span class="font-semibold">
-                                Ar</span>&nbsp;</p>
+                        <ng-contairer *ngFor="let service of offer.services">
+                            <p class="py-4" *ngIf="service?.isDeleted === 0"> 
+                                {{ service.nom }} prix : {{ service.prix }}
+                                <span class="font-semibold">Ar</span>&nbsp;
+                            </p>
+                        </ng-contairer>
                     </div>
 
                     <div class="mt-2">
-                        <mat-icon class="cursor-pointer hover:text-indigo-800" svgIcon="heroicons_outline:pencil"></mat-icon>
+                        <mat-icon (click)="openEditModal(offer._id, offer.services, offer)" class="cursor-pointer hover:text-indigo-800" svgIcon="heroicons_outline:pencil"></mat-icon>
                         <mat-icon (click)="deleteOffer(offer._id)" class="ml-4 cursor-pointer hover:text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
                     </div>
 
