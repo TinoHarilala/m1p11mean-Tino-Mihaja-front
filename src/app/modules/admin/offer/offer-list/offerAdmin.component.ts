@@ -77,4 +77,16 @@ export class OfferComponent {
             this.getOfferList();
         })
     }
+
+    deleteOffer(idOffer: string){
+        this.isLoading = true
+        this.offerService.deleteOffer(idOffer).subscribe(
+            res=>{
+                if (res) {
+                    this.isLoading = false
+                    this.getOfferList();
+                }
+            }
+        );
+    }
 }

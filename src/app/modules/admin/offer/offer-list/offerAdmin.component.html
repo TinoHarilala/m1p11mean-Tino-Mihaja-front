@@ -25,7 +25,6 @@
                             <p>Du {{ offer.start | date }} au {{ offer.end | date }}</p>
 
                         </mat-panel-title>
-
                     </mat-expansion-panel-header>
 
                     <div class="grid grid-cols-1 divide-y">
@@ -33,6 +32,12 @@
                             }}<span class="font-semibold">
                                 Ar</span>&nbsp;</p>
                     </div>
+
+                    <div class="mt-2">
+                        <mat-icon class="cursor-pointer hover:text-indigo-800" svgIcon="heroicons_outline:pencil"></mat-icon>
+                        <mat-icon (click)="deleteOffer(offer._id)" class="ml-4 cursor-pointer hover:text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
+                    </div>
+
                 </mat-expansion-panel>
             </ng-container>
             <div *ngIf="offers?.length === 0" class="my-6 text-secondary text-center">
