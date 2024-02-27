@@ -41,9 +41,7 @@ export class EmployeeDetailsComponent{
         )
     }
 
-    close() {
-        console.log("close");
-        
+    close() {        
         this.newItemEvent.emit(true);
       }
 }

@@ -1,0 +1,96 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto p-6 sm:p-10">
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <h2 class="text-4xl font-extrabold tracking-tight">Rendez-vous</h2>
+            </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <div class="flex items-center">
+                    <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-100">
+
+                        <mat-icon matPrefix svgIcon="mat_outline:search"></mat-icon>
+                        <input matInput [autocomplete]="'off'" [placeholder]="'Search contacts'">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 w-full mt-4">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table  [dataSource]="data" class="px-5" mat-table >
+                        <ng-container matColumnDef="name">
+                            <th *matHeaderCellDef mat-header-cell>Nom Client</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row.client.nom }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="contact">
+                            <th *matHeaderCellDef mat-header-cell>Contact</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ (row.client.contact) }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="service">
+                            <th *matHeaderCellDef mat-header-cell>Service</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.service.nom }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="commission">
+                            <th *matHeaderCellDef mat-header-cell>Commission</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.service.commission }} %
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="price">
+                            <th *matHeaderCellDef mat-header-cell>Prix</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.service.prix }} Ar
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <th class="text-center" *matHeaderCellDef mat-header-cell>Etat</th>
+                            <td *matCellDef="let row" mat-cell>
+                                <div [ngClass]="{'bg-green-200': row?.done === 1}"
+                                    class="flex items-center justify-center rounded-full leading-normal text-green-600 dark:text-gray-300 dark:bg-gray-700">
+
+                                    <span class="text-sm font-medium whitespace-nowrap">
+                                        {{row?.done === 1 ? 'Faite' : 'Non faite'}}
+                                    </span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <th class="text-right" *matHeaderCellDef mat-header-cell>Date</th>
+                            <td class="text-right"  *matCellDef="let row" mat-cell>
+                                {{ row.startTime | date : 'dd-MMM-YYYY hh:mm'}}
+                            </td>
+                        </ng-container>
+
+                        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+                        <ng-container *matNoDataRow>
+                            <tr *ngIf="!isLoadingResults" class="relative h-20 border-b">
+                                <td class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">Aucun enregistrement</td>
+                            </tr>
+                            <tr *ngIf="isLoadingResults" class="relative h-20 border-b">
+                                <td colspan="7"
+                                    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+                                    <mat-spinner class="w-[32px] h-[32px]"></mat-spinner>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

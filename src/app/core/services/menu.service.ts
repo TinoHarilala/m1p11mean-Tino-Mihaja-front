@@ -67,13 +67,29 @@ export class MenuService {
     }
 
     getEmployeeMenu() {
-        const menu: FuseNavigationItem[] = [{
-            id   : 'example',
-            title: 'example',
-            type : 'basic',
-            icon : 'heroicons_outline:chart-pie',
-            link : '/example'
-        }]
+        const menu: FuseNavigationItem[] = [
+            {
+                id   : 'profile',
+                title: 'Profile',
+                type : 'basic',
+                icon : 'heroicons_outline:user',
+                link : '/task/profile'
+            },
+            {
+                id   : 'task',
+                title: 'Tâches',
+                type : 'basic',
+                icon : 'mat_outline:task_alt',
+                link : '/task/list'
+            },
+            {
+                id   : 'taskDone',
+                title: 'Rendez-vous',
+                type : 'basic',
+                icon : 'mat_outline:list_alt',
+                link : '/task/done'
+            }
+    ]
         return menu
     }
 }

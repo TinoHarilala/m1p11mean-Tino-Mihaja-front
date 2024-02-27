@@ -64,7 +64,6 @@ import { EmployeeService } from '../employee.service';
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { subscriptSizing: 'dynamic' } }
     ],
-    //  changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
 
 
@@ -86,9 +85,6 @@ export class EmployeeComponent implements OnInit {
     constructor(
         private adminService: AdminService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
         private employeeService: EmployeeService
 
     ) {
@@ -116,20 +112,8 @@ export class EmployeeComponent implements OnInit {
         );
     }
 
-    /* onBackdropClicked(): void
-    {
-        // Go back to the list
-        this._router.navigate(['./'], {relativeTo: this._activatedRoute});
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-    } */
-
-    openMatDrawer(employee: User) {
-        console.log(employee);
-        
+    openMatDrawer(employee: User) {        
         this.matDrawerStatus = true;
-        /* this.employeeSelected = employee; */
         this.employeeService.sharedEmployee(employee);
     }
 

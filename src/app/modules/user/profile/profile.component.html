@@ -1,0 +1,103 @@
+<div class=" p-6 w-full">
+    <form [formGroup]="profileForm" class="mt-8 w-full flex flex-auto justify-center">
+        <div class="w-10/12 mr-2 py-4 px-4 sm:p-10 sm:rounded-2xl sm:shadow sm:bg-card">
+            <div class="flex items-center justify-between w-full">
+                <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+                    <!-- Title -->
+                    <div class="text-4xl mb-4 font-extrabold tracking-tight leading-tight">Profile utilisateur</div>
+                </div>
+
+                <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                    <div class="flex items-center">
+                        <button (click)="openCommission()"
+                                class="ml-4"
+                                mat-stroked-button>
+                            <span class="ml-2 mr-1 text-secondary">Commissions</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="grid grid-cols-3">
+                <div class="col-span-2 grid grid-cols-2 gap-4">
+                    <mat-form-field class="w-full">
+                        <mat-label>Nom d'utilisateur</mat-label>
+                        <input minlength="4" id="name" matInput [formControlName]="'nom'">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Date de naissance</mat-label>
+                        <input minlength="4" id="dateNaissance" matInput [formControlName]="'dateNaissance'">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Adresse</mat-label>
+                        <input minlength="4" id="adresse" matInput [formControlName]="'adresse'">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input minlength="4" id="email" matInput [formControlName]="'email'">
+                    </mat-form-field>
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Contact</mat-label>
+                        <input minlength="4" id="contact" matInput [formControlName]="'contact'">
+                    </mat-form-field>
+
+                    <div class="grid grid-cols-2 gap-4" [formGroup]="dateTimeForm">
+                        <div>
+                            <label for="startTime" class="font-medium text-gray-600">Début*</label><br>
+                            <div class="relative border-1">
+                                <mat-icon class="absolute top-3.5 right-2.5 " svgIcon="mat_outline:timer"></mat-icon>
+                                <input
+                                    class="absolute w-full  pl-4 mt-1 border border-gray-300 rounded-md h-12 top-0 left-0"
+                                    formControlName="startTime" matTimepicker>
+                            </div>
+
+                        </div>
+                        <div>
+                            <label for="endTime" class="font-medium text-gray-600">Fin*</label>
+                            <div class="relative border-1">
+                                <mat-icon class="absolute top-3.5 right-2.5" svgIcon="mat_outline:timer"></mat-icon>
+                                <input
+                                    class=" absolute w-full pl-4 mt-1 border border-gray-300 rounded-md h-12 top-0 left-0"
+                                    formControlName="endTime" matTimepicker>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <mat-form-field class="col-span-2 w-full">
+                        <mat-label>Mot de passe</mat-label>
+                        <input minlength="4" id="password" type="password" matInput [formControlName]="'password'">
+                    </mat-form-field>
+
+
+                </div>
+
+                <div class="pl-4 pt-6">
+                    <div class="rounded border p-4 min-h-80 overflow-y-auto">
+                        <span class="font-semibold">Services</span> <br>
+                        <div *ngFor="let service of services" class="flex items-center justify-center bg-yellow-100 py-1 mt-2 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700">
+                            <span > {{ service?.nom }} </span>
+                        </div>
+                        <span *ngIf="services?.length === 0"> Aucun service </span>
+                        <mat-spinner *ngIf="isLoading" class="w-8 h-8"></mat-spinner>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full flex justify-end">
+                <button class="col-start-2 fuse-mat-button-large mt-4 min-w-14" mat-flat-button
+                    [disabled]="profileForm.invalid" [color]="'primary'" (click)="update()">
+                    <span *ngIf="!isLoading">
+                        Enregistrer
+                    </span>
+                    <mat-progress-spinner *ngIf="isLoading" [diameter]="24" [mode]="'indeterminate'">
+                    </mat-progress-spinner>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
