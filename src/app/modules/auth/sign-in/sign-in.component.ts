@@ -33,6 +33,7 @@ export class AuthSignInComponent implements OnInit
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
     toggle: boolean = false;
+    isLoading: boolean =false;
 
     /**
      * Constructor
@@ -78,9 +79,6 @@ export class AuthSignInComponent implements OnInit
             return;
         }
 
-        // Disable the form
-        this.signInForm.disable();
-
         // Hide the alert
         this.showAlert = false;
 
@@ -92,8 +90,11 @@ export class AuthSignInComponent implements OnInit
             "password": inputValue.password
         }
 
+        this.isLoading = true;
+
         this._authService.signIn(this.toggle ? 'login.employe' : 'login', body).pipe(
             tap((res)=>{
+                this.isLoading = false;
                 this.showAlert = true;
                 this.alert = {
                     type   : 'success',
@@ -117,11 +118,13 @@ export class AuthSignInComponent implements OnInit
                     this._router.navigateByUrl('/client');
                 }
             }),
-            catchError(error => {    
-                this.showAlert = true        
+            catchError(err => {    
+                this.showAlert = true   
+                this.isLoading = false;   
+                  
                 this.alert = {
                     type: 'error',
-                    message: 'Erreur lors de la connexion',
+                    message: err.error.error,
                 };
 
                 return of(false); 

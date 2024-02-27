@@ -31,7 +31,7 @@
             <form
                 class="mt-8"
                 [formGroup]="signInForm"
-                #signInNgForm="ngForm">
+                >
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
@@ -82,13 +82,13 @@
                         class="fuse-mat-button-large w-2/3 mr-2"
                         mat-flat-button
                         [color]="'primary'"
-                        [disabled]="signInForm.disabled"
+                        [disabled]="signInForm.invalid"
                         (click)="signIn()">
-                    <span *ngIf="!signInForm.disabled">
+                    <span *ngIf="!isLoading">
                         Connecter
                     </span>
                     <mat-progress-spinner
-                        *ngIf="signInForm.disabled"
+                        *ngIf="isLoading"
                         [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
