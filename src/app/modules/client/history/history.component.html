@@ -1,0 +1,55 @@
+<p class="text-4xl text-center mt-5 text-boad">Liste des historiques de rendez-vous</p>
+<div class="flex flex-auto justify-center w-full max-w-5xl mx-auto p-6 sm:p-6">
+    <div class="grid grid-cols-1 gap-8 w-full mt-4">
+        <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table [dataSource]="histories" class="px-5" mat-table>
+                    <ng-container matColumnDef="service">
+                        <th *matHeaderCellDef mat-header-cell>Service</th>
+                        <td *matCellDef="let row" mat-cell>
+                            {{ row?.service?.nom }} - {{ row?.service?.duree }} h
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="employee">
+                        <th *matHeaderCellDef mat-header-cell>Responsable</th>
+                        <td *matCellDef="let row" mat-cell>
+                            {{ row?.employe?.nom }} - {{ row?.employe?.contact }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date">
+                        <th *matHeaderCellDef mat-header-cell>Date</th>
+                        <td *matCellDef="let row" mat-cell>
+                            {{ row?.dateTime | date}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th class="text-right" *matHeaderCellDef mat-header-cell>Prix</th>
+                        <td class="text-right" *matCellDef="let row" mat-cell>
+                            {{ (row?.prix).toLocaleString('fr-FR') }} Ar
+                        </td>
+                    </ng-container>
+
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+                    <ng-container *matNoDataRow>
+                        <tr *ngIf="!isLoadingResults" class="relative h-20 border-b">
+                            <td class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">Aucun
+                                enregistrement
+                            </td>
+                        </tr>
+                        <tr *ngIf="isLoadingResults" class="relative h-20 border-b">
+                            <td colspan="7"
+                                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+                                <mat-spinner class="w-[32px] h-[32px]"></mat-spinner>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

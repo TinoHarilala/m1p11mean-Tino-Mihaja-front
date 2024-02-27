@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
+import { StringChain } from "lodash";
 
 @Injectable({
     providedIn:"root"
@@ -33,6 +34,10 @@ export class ClientService {
     getSpecialOffer(date: string, id_service: string) {
         const url = [environment.apiUrl, 'valide.offreSpecial', date, id_service].join('/');
         return this.http.get(url);
+    }
 
+    getHistories(id_client: StringChain){
+        const url = [environment.apiUrl, 'historique', id_client].join('/');
+        return this.http.get(url)
     }
 }

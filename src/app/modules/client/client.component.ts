@@ -6,6 +6,7 @@ import {NgIf} from "@angular/common";
 import {ActualityComponent} from "./actuality/actuality.component";
 import { Client } from 'app/core/model/client.model';
 import { OfferComponent } from './offer/offer.component';
+import { HistoryComponent } from './history/history.component';
 
 @Component({
     selector: 'app-client',
@@ -18,7 +19,8 @@ import { OfferComponent } from './offer/offer.component';
         RouterOutlet,
         NgIf,
         ActualityComponent,
-        OfferComponent
+        OfferComponent,
+        HistoryComponent
     ],
     standalone: true
 })
