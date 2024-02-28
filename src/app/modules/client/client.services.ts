@@ -26,6 +26,11 @@ export class ClientService {
         return this.http.post(url, body)
     }
 
+    payment(body){
+        const url = [environment.apiUrl, 'paiement.rendezVous'].join('/');
+        return this.http.post(url, body)
+    }
+
     unavailability(body){
         const url = [environment.apiUrl, 'indisponibilite'].join('/');
         return this.http.post(url, body)
@@ -38,6 +43,11 @@ export class ClientService {
 
     getHistories(id_client: StringChain){
         const url = [environment.apiUrl, 'historique', id_client].join('/');
+        return this.http.get(url)
+    }
+
+    getDetailHistory(idHistory: string, idClient){
+        const url = [environment.apiUrl, 'paiement.rendezVous', idHistory, idClient].join('/');
         return this.http.get(url)
     }
 }

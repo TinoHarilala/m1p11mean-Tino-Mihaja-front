@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FuseCardComponent } from "../../../../@fuse/components/card";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -12,6 +12,7 @@ import { Client } from 'app/core/model/client.model';
 import { Service } from 'app/modules/admin/service/service.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CalendarComponent } from '../calendar/calendar.component';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-actuality',
@@ -34,6 +35,8 @@ export class ActualityComponent {
     user: Client;
     isLoading: boolean = false;
 
+    @Output() navigatePayment = new EventEmitter<number>();
+
     constructor(
         private clientService: ClientService,
         public dialog: MatDialog
@@ -53,9 +56,12 @@ export class ActualityComponent {
     reserve(service: ServiceModel) {
         const dialogRef = this.dialog.open(CalendarComponent, {
             autoFocus: false,
-            width: '900px',
+            width: '950px',
             data: service
         });
-
+        dialogRef.afterClosed().subscribe(()=>{
+            this.navigatePayment.emit(2)
+        }
+        )
     }
 }

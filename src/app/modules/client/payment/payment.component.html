@@ -1,0 +1,52 @@
+<div [formGroup]="amountForm">
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <span class="text-2xl font-normal">Payment</span>
+            <mat-form-field class="w-full mt-4 h-10 min-h-10">
+                <input class="h-10 pb-2 min-h-10" id="amount" type="number" formControlName="amount" matInput>
+            </mat-form-field>
+            <div class="grid grid-cols-2 gap-4 rounded border p-4 mt-4">
+                <div class="col-span-2">
+                    <p><b>{{ history?.service?.nom }}</b></p>
+                </div>
+                <span>prix </span>
+                <p class="text-right"><b>{{ history?.prix }} Ar</b></p>
+
+                <span>payé</span>
+                <p class="text-right"><b>{{ history?.prix - leftToPay || 0 }} Ar</b></p>
+
+                <span>reste à payer</span>
+                <p class="text-right"><b>{{ leftToPay || 0 }} Ar</b></p>
+
+                <div class="col-start-2 border-b border-gray-700 pb-2">
+                    <p class="text-right"><b>{{ amountForm.get('amount').value }} Ar</b></p>
+                </div>
+                <span>Différence</span>
+                <span class="col-start-2 text-right">
+                    <b>{{ leftToPay - amountForm.get('amount').value || 0}} Ar</b>
+                </span>
+            </div>
+        </div>
+        <div>
+            <span class="text-2xl font-normal">Détail transaction</span>
+            <div class="min-h-72 h-20 overflow-y-auto mt-4">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class=" rounded border p-4" *ngFor="let detail of details">
+                        <span>A payer <b>{{ detail?.aPayer}} Ar</b></span><br>
+                        <span> Payé <b>{{ detail?.montant }} Ar</b></span><br>
+                        <span class="text-red-400"> Reste <b>{{ detail?.reste }} Ar</b></span><br>
+                        <span class="text-secondary text-sm">{{ detail?.date | date : 'dd-MMM-YYYY hh:mm'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full flex justify-end mt-4">
+        <button [disabled]="amountForm.invalid" (click)="save()" mat-stroked-button>
+            <span class="px-2">
+                Valider
+            </span>
+        </button>
+    </div>
+</div>

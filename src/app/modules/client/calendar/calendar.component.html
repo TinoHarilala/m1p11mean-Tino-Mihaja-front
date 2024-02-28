@@ -1,46 +1,44 @@
 <div class="grid grid-cols-7 -m-6">
     <div class="col-span-5">
-        <div class="m-4 bg-gray-100">
+        <div class="m-4 pt-4 bg-gray-100">
             <full-calendar class="w-full" [options]="calendarOptions">
             </full-calendar>
-        </div>
-
-        <div class="flex justify-between m-4">
-            <div>
-                <p class="text-secondary">Service <b>{{ data.nom }}</b></p>
-                <p class="text-secondary"> prix : <b>{{ data.prix }} Ar</b> : <b>{{ dateInfo?.start }}</b> - <b>{{
-                        dateInfo?.end}}</b></p>
-            </div>
-            <button (click)="save()" mat-stroked-button>
-                <span class="px-2 ">
-                    Valider
-                </span>
-            </button>
         </div>
     </div>
 
     <div class="mt-4 mr-4 col-span-2">
-        <span class="text-3xl font-bold">Offre spéciales</span>
-        <div class="border rounded p-4"  [ngClass]="{ 'bg-gray-100': offer._id === idSelectedSpecialOffer }" *ngFor="let offer of offers">
-            <ng-container  *ngIf="offer?.isValide === 1">
-                <div (click)="setSpecialOffer(offer._id)" class="cursor-pointer">
-                    <span class="mb-4">
-                        {{ offer.title }} 
-                        <button class="h-6 mx-4 min-h-6 px-2 rounded-full bg-yellow-200 bg-hover" mat-button>
-                            <span class="font-medium text-sm text-secondary">remise de {{ offer.remise }} %</span>
-                        </button>
-                    </span><br>
-                    <span class="text-secondary font-semibold text-md">Du {{ offer?.start | date }} au {{ offer?.end | date}}</span>
-                </div>
-            </ng-container>
+        <div class="min-h-60  max-h-60 overflow-x">
+            <span class="text-xl font-normal underline">Offre spéciales</span>
+            <div class="border rounded p-4 " [ngClass]="{ 'bg-gray-100': offer._id === idSelectedSpecialOffer }"
+                *ngFor="let offer of offers">
+                <ng-container *ngIf="offer?.isValide === 1">
+                    <div (click)="setSpecialOffer(offer._id)" class="cursor-pointer">
+                        <span class="mb-4">
+                            {{ offer.title }}
+                            <button class="h-6 mx-4 min-h-6 px-2 rounded-full bg-yellow-200 bg-hover" mat-button>
+                                <span class="font-medium text-sm text-secondary">remise de {{ offer.remise }}
+                                    %</span>
+                            </button>
+                        </span><br>
+                        <span class="text-secondary font-semibold text-md">Du {{ offer?.start | date }} au {{
+                            offer?.end
+                            | date}}</span>
+                    </div>
+                </ng-container>
+            </div>
+            <mat-spinner *ngIf="isLoading" class="w-6 h-6 ml-8 mt-8"></mat-spinner>
+
+            <div *ngIf="!isLoading && offers.length === 0">
+                <span>Aucune offre</span>
+            </div>
         </div>
-
-        <div *ngIf="offers.length === 0">
-            <span>Aucune offre</span>
-        </div>
-
-        <mat-spinner *ngIf="isLoading" class="w-6 h-6 ml-8 mt-8"></mat-spinner>
-
     </div>
 
+</div>
+<div class="w-full flex justify-end mt-4">
+    <button (click)="save()" mat-stroked-button>
+        <span class="px-2">
+            Valider
+        </span>
+    </button>
 </div>

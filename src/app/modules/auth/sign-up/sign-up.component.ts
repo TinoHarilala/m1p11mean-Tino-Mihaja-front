@@ -91,7 +91,7 @@ export class AuthSignUpComponent implements OnInit {
             dateNaissance: inputValue.date_of_birth,
             contact: inputValue.contact,
             password: inputValue.password,
-            solde: 3000
+            solde: 100000
         }
 
         // Do nothing if the form is invalid

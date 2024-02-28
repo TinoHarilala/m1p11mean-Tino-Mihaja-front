@@ -31,4 +31,9 @@ export class ClientComponent {
     ngOnInit(){
         this.client = JSON.parse(sessionStorage.getItem('session'));
     }
+
+    navigate(id: number){
+        console.log(id);
+        this.selectedTabIndex = id
+    }
 }

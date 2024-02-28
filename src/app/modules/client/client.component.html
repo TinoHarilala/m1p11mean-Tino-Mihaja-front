@@ -40,7 +40,7 @@
     <!-- Main -->
     <!--                    component list-->
     <ng-container *ngIf="selectedTabIndex === 0">
-        <app-actuality></app-actuality>
+        <app-actuality  (navigatePayment)="navigate($event)"></app-actuality>
     </ng-container>
 
     <ng-container *ngIf="selectedTabIndex === 1">

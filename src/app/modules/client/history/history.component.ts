@@ -12,12 +12,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OfferModel } from 'app/core/model/offer.model';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentComponent } from '../payment/payment.component';
 
 
 
 @Component({
     selector: 'app-history',
     templateUrl: './history.component.html',
+    styleUrls: ['./history.component.scss'],
     imports: [
         MatIconModule,
         FuseCardComponent,
@@ -31,6 +35,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatButtonModule,
         MatFormFieldModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
         NgIf,
         NgFor,
         RouterModule,
@@ -38,16 +43,16 @@ import { MatExpansionModule } from '@angular/material/expansion';
         DatePipe,
     ],
     standalone: true,
-    providers: [DatePipe],
-    encapsulation: ViewEncapsulation.None
+    providers: [DatePipe]
 })
 export class HistoryComponent {
     histories = [];
     isLoadingResults: boolean = false;
-    displayedColumns = ["service", "employee", "date", "price"];
+    displayedColumns = ["service", "employee", "date", "price", "payment"];
 
     constructor(
-        private clientService: ClientService
+        private clientService: ClientService,
+        private dialog: MatDialog
     ){}
 
     ngOnInit(){
@@ -63,5 +68,16 @@ export class HistoryComponent {
                 this.histories = res.historique         
             }
         )
+    }
+
+    openPayment(history){
+        console.log(history);
+        
+        const dialogRef = this.dialog.open(PaymentComponent, {
+            width: '900px',
+            data: {
+                history
+            }
+        })
     }
 }

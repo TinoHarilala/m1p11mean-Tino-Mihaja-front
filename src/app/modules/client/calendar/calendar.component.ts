@@ -16,6 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { OfferModel } from 'app/core/model/offer.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, of, tap } from 'rxjs';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 @Component({
@@ -25,6 +28,9 @@ import { catchError, of, tap } from 'rxjs';
     imports: [
         MatIconModule,
         MatTabsModule,
+        MatFormFieldModule,
+        MatInputModule,
+
         RouterLink,
         RouterOutlet,
         NgIf,
@@ -33,11 +39,14 @@ import { catchError, of, tap } from 'rxjs';
         DatePipe,
         FullCalendarModule,
         MatButtonModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        ReactiveFormsModule,
 
     ],
     standalone: true,
-    providers: [DatePipe],
+    providers: [DatePipe,
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { subscriptSizing: 'dynamic' } },
+    ],
     encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent {
@@ -51,12 +60,14 @@ export class CalendarComponent {
     isLoading: boolean = false;
     idSelectedSpecialOffer: string;
     selectedOfferId: string | null = null;
+    amountForm: FormGroup;
 
     constructor(
         public dialogRef: MatDialogRef<CalendarComponent>,
         private clientService: ClientService,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private formBuilder: FormBuilder
     ) { }
 
     calendarOptions: CalendarOptions = {
@@ -102,7 +113,7 @@ export class CalendarComponent {
         });
         this.client = JSON.parse(sessionStorage.getItem('session'));
         this.getUnavailability();
-        
+       
     }
 
     private getUnavailability() {
@@ -145,7 +156,7 @@ export class CalendarComponent {
         const body = { idClient: this.client._id, dateTime: this.selectedHours, service: this.data._id }
         const resultWithOffer = {
             "rendezVous": body,
-            "offreSpecial": this.idSelectedSpecialOffer
+            "offreSpecial": this.idSelectedSpecialOffer,
         };
 
         this.clientService.makeAnAppointment(this.idSelectedSpecialOffer ? resultWithOffer : { "rendezVous": body }).pipe(
@@ -160,6 +171,8 @@ export class CalendarComponent {
         ).subscribe()
 
     }
+
+
 
     handleDatesSet(info) {
         const calendarApi = info.view.calendar;
