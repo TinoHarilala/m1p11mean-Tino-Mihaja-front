@@ -1,0 +1,31 @@
+<div class="flex justify-center items-center mt-5">
+    <p class="text-4xl text-center text-boad">Liste des préference</p>
+    <button (click)="addPreference()" class="ml-4" mat-flat-button [color]="'primary'">
+        <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
+        <span class="ml-2 mr-1">Ajouter</span>
+    </button>
+</div>
+<div class="flex flex-auto justify-center w-full max-w-5xl mx-auto p-0 pt-4 sm:p-8">
+    <div class="bg-card rounded shadow ml-2 mt-4" *ngFor="let item of preference">
+        <div class="px-6 py-3 font-mono text-secondary border-b">
+            Employée: {{item.employe.nom}}
+        </div>
+        <div class="p-6">
+            Service: {{item.service.nom}} - à {{item.service.prix}} ar avec une durré de {{item.service.duree}} H
+        </div>
+        <div class="text-right">
+            <!-- <button type="button" (click)="editReference(item._id)"
+                class="h-10 rounded mat-elevation-z0 bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-indigo-50"
+                mat-mini-fab color="primary">
+                <mat-icon class="icon-size-5" svgIcon="mat_outline:edit"></mat-icon>
+            </button> -->
+            <!-- <button type="button" (click)="deleteReference(item._id)"
+                class="ml-2 h-10 rounded mat-elevation-z0 bg-red-100 text-red-800 dark:bg-red-600 dark:text-red-50"
+                mat-mini-fab color="primary">
+                <mat-icon class="icon-size-5" svgIcon="mat_outline:delete"></mat-icon>
+            </button> -->
+            <mat-icon (click)="deleteReference(item._id)" class="mr-4 mb-4 cursor-pointer hover:text-red-600" svgIcon="heroicons_outline:trash"></mat-icon>
+
+        </div>
+    </div>
+</div>

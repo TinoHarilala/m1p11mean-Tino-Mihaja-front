@@ -1,0 +1,39 @@
+<h1 class="text-2xl font-semibold" *ngIf="!id">Ajout preference</h1>
+<h1 class="text-2xl font-semibold" *ngIf="id">Modifier preference</h1>
+<div class="row mt-4">
+    <form [formGroup]="preferenceForm" (ngSubmit)="save()">
+        <div class="grid grid-cols-2 gap-4">
+
+            <mat-form-field
+                class="flex-auto gt-xs:pl-3">
+                <mat-label>Employée</mat-label>
+                <mat-select [formControlName]="'employe'">
+                    <mat-option *ngFor="let item of employe" [value]="item._id">{{item.nom}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field
+                class="flex-auto gt-xs:pl-3">
+                <mat-label>Service</mat-label>
+                <mat-select [formControlName]="'service'">
+                    <mat-option *ngFor="let item of services" [value]="item._id">{{item.nom}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+        <div class="flex justify-end mt-4" *ngIf="!id">
+            <div>
+                <button mat-dialog-close mat-flat-button type="button"
+                        class="mr-2">Fermer</button>
+                <button mat-flat-button type="submit" color="primary">Ajouter</button>
+            </div>
+        </div>
+    </form>
+    <div class="flex justify-end mt-4" *ngIf="id">
+        <div>
+            <button mat-dialog-close mat-flat-button type="button"
+                    class="mr-2">Fermer</button>
+            <button mat-flat-button (click)="editReference()" color="primary">Modifier</button>
+        </div>
+    </div>
+</div>

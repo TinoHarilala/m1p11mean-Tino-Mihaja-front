@@ -40,6 +40,32 @@ export class ClientService {
         return this.http.post(url, body)
     }
 
+    createReference(body){
+        const url = [environment.apiUrl, 'create.preference'].join('/');
+        return this.http.post(url, body)
+    }
+
+    getListReference(){
+        const url = [environment.apiUrl, 'get.preference'].join('/');
+        return this.http.get<any>(url);
+    }
+
+    getReferenceById(id){
+        const url = [environment.apiUrl, 'preference', id].join('/');
+        return this.http.get<any>(url)
+    }
+
+
+    updateReference(body){
+        const url = [environment.apiUrl, 'update.preference'].join('/');
+        return this.http.post(url, body)
+    }
+
+    deleteReference(id){
+        const url = [environment.apiUrl, 'delete.preference', id].join('/');
+        return this.http.get(url)
+    }
+
     getSpecialOffer(date: string, id_service: string) {
         const url = [environment.apiUrl, 'valide.offreSpecial', date, id_service].join('/');
         return this.http.get(url);

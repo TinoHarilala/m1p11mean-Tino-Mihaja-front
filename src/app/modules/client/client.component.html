@@ -5,7 +5,7 @@
 
         </div>
 
-        <div class="flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-8 lg:h-18 bg-card">
+        <div class="relative flex flex-col flex-0 lg:flex-row items-center max-w-5xl w-full mx-auto px-8 lg:h-18 bg-card">
             <div class="-mt-26 lg:-mt-22 rounded-full bg-white">
                     <mat-icon class="w-32 h-32 rounded-full ring-4 ring-bg-card text-gray-300" svgIcon="heroicons_solid:user-circle"></mat-icon>
             </div>
@@ -32,10 +32,18 @@
                 <a class="font-medium hover:text-secondary cursor-pointer" (click)="selectedTabIndex = 2">
                     Historiques
                 </a>
+                <a class="font-medium hover:text-secondary cursor-pointer" (click)="selectedTabIndex = 3">
+                    Préférence
+                </a>
                 <a matBadge="{{notificationsLength}}" matBadgeColor="accent" class="font-medium hover:text-secondary cursor-pointer" (click)="openNotificationModal()">
                     Notifications
                 </a>
             </div>
+            <button class="absolute -right-40 top-4 ml-6" (click)="signOut()" mat-stroked-button>
+                <span class="px-2 ">
+                    Déconnecter
+                </span>
+            </button>
         </div>
     </div>
     <!-- Main -->
@@ -50,6 +58,10 @@
 
     <ng-container *ngIf="selectedTabIndex === 2">
         <app-history></app-history>
+    </ng-container>
+
+    <ng-container *ngIf="selectedTabIndex === 3">
+        <app-reference></app-reference>
     </ng-container>
 
 </div>

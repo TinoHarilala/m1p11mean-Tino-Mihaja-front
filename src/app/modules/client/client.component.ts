@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
-import { RouterLink, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterOutlet } from "@angular/router";
 import { NgIf } from "@angular/common";
 import { ActualityComponent } from "./actuality/actuality.component";
 import { Client } from 'app/core/model/client.model';
@@ -11,6 +11,9 @@ import { NotificationComponent } from './notification/notification.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientService } from './client.services';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AuthService } from 'app/core/auth/auth.service';
+import { ReferenceComponent } from './preference/reference.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-client',
@@ -26,7 +29,10 @@ import { MatBadgeModule } from '@angular/material/badge';
         OfferComponent,
         HistoryComponent,
         NotificationComponent,
-        MatBadgeModule
+        MatBadgeModule,
+        ReferenceComponent,
+        MatButtonModule,
+
     ],
     standalone: true
 })
@@ -36,6 +42,8 @@ export class ClientComponent {
     notificationsLength: number;
     notifications: any[] = []
     constructor(
+        private _authService: AuthService,
+        private _router: Router,
         private dialog: MatDialog,
         private clientService: ClientService
     ) { }
@@ -46,16 +54,16 @@ export class ClientComponent {
 
         // shared notification length
         this.clientService.notificationLength$.subscribe(
-            (res: any)=>{
+            (res: any) => {
                 if (res) {
                     this.getNotification()
                 }
-                
+
             }
         )
     }
 
-    private getNotification(){
+    private getNotification() {
         this.clientService.getNotification(this.client._id).subscribe(
             (res: any) => {
                 this.notifications = res.notifications
@@ -70,7 +78,6 @@ export class ClientComponent {
     }
 
 
-
     openNotificationModal() {
         const dialog = this.dialog.open(NotificationComponent, {
             width: '400px',
@@ -79,5 +86,10 @@ export class ClientComponent {
                 length: this.notificationsLength
             }
         })
+    }
+
+    signOut() {
+        this._authService.signOut();
+        this._router.navigate(['sign-in']);
     }
 }
