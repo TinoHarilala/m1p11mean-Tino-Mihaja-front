@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatIconModule } from "@angular/material/icon";
 import { MatTabsModule } from "@angular/material/tabs";
 import { Router, RouterLink, RouterOutlet } from "@angular/router";
-import { NgIf } from "@angular/common";
+import { DatePipe, NgIf } from "@angular/common";
 import { ActualityComponent } from "./actuality/actuality.component";
 import { Client } from 'app/core/model/client.model';
 import { OfferComponent } from './offer/offer.component';
@@ -14,6 +14,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from 'app/core/auth/auth.service';
 import { ReferenceComponent } from './preference/reference.component';
 import { MatButtonModule } from '@angular/material/button';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-client',
@@ -34,23 +35,30 @@ import { MatButtonModule } from '@angular/material/button';
         MatButtonModule,
 
     ],
+    providers: [DatePipe],
     standalone: true
 })
 export class ClientComponent {
     selectedTabIndex: number = 0;
     client: Client;
     notificationsLength: number;
-    notifications: any[] = []
+    notifications: any[] = [];
+    histories: any;
+
+
     constructor(
         private _authService: AuthService,
         private _router: Router,
         private dialog: MatDialog,
-        private clientService: ClientService
+        private clientService: ClientService,
+        private datePipe: DatePipe
+
     ) { }
 
     ngOnInit() {
         this.client = JSON.parse(sessionStorage.getItem('session'));
-        this.getNotification()
+        this.getNotification();
+        this.getHistories();
 
         // shared notification length
         this.clientService.notificationLength$.subscribe(
@@ -91,5 +99,54 @@ export class ClientComponent {
     signOut() {
         this._authService.signOut();
         this._router.navigate(['sign-in']);
+    }
+
+    getHistories() {
+        const user = JSON.parse(sessionStorage.getItem('session'));
+        this.clientService.getHistories(user?._id).subscribe(
+            (res: any) => {
+                this.histories = res.historique
+                this.checkDates()
+            }
+        )
+    }
+    private async checkDates() {
+        for (const offre of this.histories) {
+            await this.checkDateAndShowAlert(offre);
+        }
+    }
+
+    private async checkDateAndShowAlert(offre: any): Promise<void> {
+        const currentDate = new Date();
+        const twoDaysLater = new Date(currentDate);
+        twoDaysLater.setDate(currentDate.getDate() + 2);
+
+        const serverDate = new Date(offre.dateTime);
+
+        if (serverDate.getTime() >= currentDate.getTime() && serverDate.getTime() <= twoDaysLater.getTime()) {
+            await this.showAlert('Vous avez un rendez-vous le ' + this.datePipe.transform(offre?.dateTime, 'dd MMM YYYY : hh:mm' ) + ' service : ' + offre?.service?.nom );
+        }
+    }
+
+    private showAlert(message: string): Promise<any> {
+        return Swal.fire({
+            toast: true,
+            position: 'top',
+            showConfirmButton: false,
+            animation: false,
+            timer: 4000,
+            width: 'auto',
+            color: '#4F46E5',
+            text: message,
+            customClass: {
+                popup: 'bg-indigo-50',
+            },
+            didRender(toast: HTMLElement) {
+                toast.addEventListener('click', () => {
+                    Swal.close();
+                });
+            }
+        })
+        .then()
     }
 }
