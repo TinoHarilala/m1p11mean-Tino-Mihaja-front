@@ -64,8 +64,7 @@
                                     class="flex items-center justify-center bg-gray-100 py-1 mt-2 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700">
 
                                     <span class="text-sm font-medium whitespace-nowrap">De {{selectedTask?.date | date :
-                                        'dd-MMM-YYYY hh:mm'}} Au {{selectedTask?.endTime | date : 'dd-MMM-YYYY
-                                        hh:mm'}}</span>
+                                        'dd-MMM-YYYY hh:mm'}} Au {{selectedTask?.endTime | date : 'dd-MMM-YYYY hh:mm'}}</span>
                                 </div>
                             </div>
 
@@ -75,7 +74,7 @@
                                     class="flex items-center justify-center bg-yellow-100 py-1 mt-2 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700">
 
                                     <span class="text-sm font-medium whitespace-nowrap">{{selectedTask?.commission }}
-                                        %</span>
+                                        Ar </span>
                                 </div>
                             </div>
                         </div>
@@ -104,18 +103,6 @@
                                 <div class="text-4xl font-extrabold tracking-tight leading-none">Tâches </div>
                                 <div class="ml-0.5 font-medium text-secondary">
                                     {{ tasks?.length }} tâches au total
-                                </div>
-                            </div>
-
-                            <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
-                                <!-- Search -->
-                                <div class="flex-auto">
-                                    <mat-form-field
-                                        class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
-
-                                        <mat-icon matPrefix svgIcon="mat_outline:search"></mat-icon>
-                                        <input matInput [autocomplete]="'off'" [placeholder]="'Search contacts'">
-                                    </mat-form-field>
                                 </div>
                             </div>
                         </div>

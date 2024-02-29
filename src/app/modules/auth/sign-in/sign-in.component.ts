@@ -32,7 +32,7 @@ export class AuthSignInComponent implements OnInit
     };
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
-    toggle: boolean = false;
+    toggle: boolean = true;
     isLoading: boolean =false;
 
     /**
@@ -71,7 +71,7 @@ export class AuthSignInComponent implements OnInit
     /**
      * Sign in
      */
-    signIn(): void
+    signIn(defaultBody?:any): void
     {
         // Return if the form is invalid
         if ( this.signInForm.invalid )
@@ -82,9 +82,9 @@ export class AuthSignInComponent implements OnInit
         // Hide the alert
         this.showAlert = false;
 
-        // Sign in 
+        // Sign in
         const inputValue = this.signInForm.getRawValue();
-        
+
         const body = {
             "email": inputValue.email,
             "password": inputValue.password
@@ -92,7 +92,7 @@ export class AuthSignInComponent implements OnInit
 
         this.isLoading = true;
 
-        this._authService.signIn(this.toggle ? 'login.employe' : 'login', body).pipe(
+        this._authService.signIn(this.toggle ? 'login.employe' : 'login',defaultBody || body).pipe(
             tap((res)=>{
                 this.isLoading = false;
                 this.showAlert = true;
@@ -106,28 +106,28 @@ export class AuthSignInComponent implements OnInit
                     const defaultMenuEmployee = this._menuService.getEmployeeMenu();
                     this._authService.sharedActiveMenu(defaultMenuEmployee) ;
                     this._menuService.getEmployeeMenu() ;
-                    this._router.navigateByUrl('/employee');
+                    this._router.navigateByUrl('/task/profile');
                 }
                 else if (this._authService.session?.isManager == 1){
                     const defaultMenuAdmin = this._menuService.getAdminMenu();
                     this._authService.sharedActiveMenu(defaultMenuAdmin) ;
                     this._menuService.getAdminMenu() ;
-                    this._router.navigateByUrl('/admin');
+                    this._router.navigateByUrl('/dashboard/list');
                 }
                 else {
                     this._router.navigateByUrl('/client');
                 }
             }),
-            catchError(err => {    
-                this.showAlert = true   
-                this.isLoading = false;   
-                  
+            catchError(err => {
+                this.showAlert = true
+                this.isLoading = false;
+
                 this.alert = {
                     type: 'error',
                     message: err.error.error,
                 };
 
-                return of(false); 
+                return of(false);
             })
         ).subscribe()
     }
@@ -135,4 +135,24 @@ export class AuthSignInComponent implements OnInit
     toggleButton(){
         this.toggle =  !this.toggle;
     }
+
+    signInEmployee(){
+        this.toggle = true
+        const defaultBody = {
+            "email": 'julio@gmail.com',
+            "password": 'Julio123'
+        }
+        this.signIn(defaultBody);
+    }
+
+    signInClient() {
+        this.toggle = false
+        const defaultBody = {
+            "email": 'mihajaraman@gmail.com',
+            "password": 'Bertha123'
+        }
+        this.signIn(defaultBody)
+    }
+
+
 }

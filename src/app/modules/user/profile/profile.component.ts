@@ -69,8 +69,7 @@ export class ProfileComponent {
             dateNaissance: [null, Validators.required],
             adresse: [null, Validators.required],
             email: [null, Validators.required],
-            contact: [null, Validators.required],
-            password: [null]
+            contact: [null, Validators.required]
         })
 
         this.dateTimeForm = this.formBuilder.group({
@@ -193,4 +192,4 @@ export class ProfileComponent {
     }
 
 
-}   
+}

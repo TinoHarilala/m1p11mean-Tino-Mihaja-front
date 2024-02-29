@@ -1,9 +1,9 @@
 <h1 class="text-3xl text-secondary pb-2">Liste des commissions</h1>
 <div class="grid grid-cols-1 divide-y">
     <ng-container *ngFor="let commission of data?.commissions">
-        <div class="py-2 flex flex-auto items-center">{{ commission.date | date }} 
+        <div class="py-2 flex flex-auto items-center">{{ commission.date | date }}
             <div class="flex items-center justify-center bg-yellow-100 py-1 ml-4 mt-2 px-3 mr-3 mb-3 rounded-full leading-normal text-gray-500 dark:text-gray-300 dark:bg-gray-700">
-                <span class="text-sm font-medium whitespace-nowrap">{{ commission.total }}%</span>
+                <span class="text-sm font-medium whitespace-nowrap">{{ commission.total }} Ar</span>
             </div>
         </div>
     </ng-container>

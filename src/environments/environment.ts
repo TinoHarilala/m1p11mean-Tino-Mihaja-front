@@ -1,6 +1,6 @@
 export const environment = {
     production : false,
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'https://deploiement-mean-back.onrender.com/api',
 };
 
 export const environmentProd = {

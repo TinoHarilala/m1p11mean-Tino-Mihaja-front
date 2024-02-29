@@ -6,7 +6,7 @@ import { FuseNavigationItem } from "@fuse/components/navigation";
 })
 export class MenuService {
     getAdminMenu(){
-        const menu: FuseNavigationItem[] = 
+        const menu: FuseNavigationItem[] =
         [
             {
                 id   : 'dashboad',
@@ -84,7 +84,7 @@ export class MenuService {
             },
             {
                 id   : 'taskDone',
-                title: 'Rendez-vous',
+                title: 'Rendez-vous effectué',
                 type : 'basic',
                 icon : 'mat_outline:list_alt',
                 link : '/task/done'

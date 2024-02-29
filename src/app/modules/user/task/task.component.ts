@@ -1,5 +1,5 @@
 import {  Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormGroup, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,7 +19,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { UserService } from '../user.services';
-import { tap } from 'rxjs';
+import {catchError, debounceTime, filter, map, of, Subject, takeUntil, tap} from 'rxjs';
+import {NotificationService} from "../../../core/services/notification.service";
 
 
 @Component({
@@ -68,8 +69,10 @@ export class TaskComponent implements OnInit {
     matDrawerStatus: boolean = false;
     selectedTask: any
     isLoadingResults: boolean = false;
+
     constructor(
-        private userService: UserService
+        private userService: UserService,
+        private notificationService: NotificationService
     ) { }
 
     ngOnInit(): void {
@@ -100,10 +103,13 @@ export class TaskComponent implements OnInit {
     updateStatus(){
         this.userService.updateTaskStatus(this.selectedTask._id).pipe(
             tap(()=>{
-                alert('Modification effectuer avec succes')
+                this.notificationService.success('Modification effectuer avec succès')
                 this.getTask();
+            }),
+            catchError(err => {
+                this.notificationService.error(err.error.error);
+                return of(null)
             })
         ).subscribe()
     }
-
 }
