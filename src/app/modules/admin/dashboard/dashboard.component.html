@@ -6,66 +6,35 @@
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex items-start justify-between m-6 mb-0">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Réservation</div>
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Résérvation par jour</div>
                     <div class="ml-2">
                         <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button>
-                            <span class="font-medium text-sm text-secondary">25 février 2024</span>
+                            <span class="font-medium text-sm text-secondary">{{ dateNow | date }}</span>
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-col lg:flex-row lg:items-center mx-6 my-4">
-                    <div class="text-6xl text-center font-bold tracking-tighter text-secondary leading-tight">10 personnes</div>
-                    <div *ngIf="checkValue" class="flex lg:flex-col lg:ml-3">
-                        <mat-icon class="icon-size-5 text-green-500" svgIcon="heroicons_outline:arrow-trending-up"></mat-icon>
-                        <div
-                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
-                            <span class="font-medium text-green-500">{{getReservationDifference()}}%</span>
-                            <span class="ml-1">en dessus de l'objectif</span>
-                        </div>
-                    </div>
 
-                    <div *ngIf="!checkValue" class="flex lg:flex-col lg:ml-3">
-                        <mat-icon class="icon-size-5 text-red-500" svgIcon="heroicons_outline:arrow-trending-up"></mat-icon>
-                        <div
-                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
-                            <span class="font-medium text-red-500">{{getReservationDifference()}}%</span>
-                            <span class="ml-1">en dessous de l'objectif</span>
-                        </div>
-                    </div>
-                </div>
+                <apx-chart *ngIf="chartReservation" [series]="chartReservation?.series" [chart]="chartReservation?.chart"
+                    [dataLabels]="chartReservation?.dataLabels" [plotOptions]="chartReservation?.plotOptions"
+                    [yaxis]="chartReservation?.yaxis" [xaxis]="chartReservation?.xaxis" [legend]="chartReservation?.legend"
+                    [colors]="chartReservation?.colors" [grid]="chartReservation?.grid"></apx-chart>
+
             </div>
 
             <div class="flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
                 <div class="flex items-start justify-between m-6 mb-0">
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Chiffre d'affaire</div>
+                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Chiffre d'affaire par jour</div>
                     <div class="ml-2">
                         <button class="h-6 min-h-6 px-2 rounded-full bg-hover" mat-button>
-                            <span class="font-medium text-sm text-secondary">25 février 2024</span>
+                            <span class="font-medium text-sm text-secondary">{{ dateNow | date }}</span>
                         </button>
                     </div>
                 </div>
-                <div class="flex flex-col lg:flex-row lg:items-center mx-6 my-4">
-                    <div class="text-6xl text-secondary text-center font-bold tracking-tighter leading-tight">200 000 Ar</div>
-                    <div *ngIf="checkTurnoverValue" class="flex lg:flex-col lg:ml-3">
-                        <mat-icon class="icon-size-5 text-green-500" svgIcon="heroicons_outline:arrow-trending-down">
-                        </mat-icon>
-                        <div
-                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
-                            <span class="font-medium text-green-500">{{ getTurnoverDifference() }}%</span>
-                            <span class="ml-1">en dessus de l'objectif</span>
-                        </div>
-                    </div>
 
-                    <div *ngIf="!checkTurnoverValue" class="flex lg:flex-col lg:ml-3">
-                        <mat-icon class="icon-size-5 text-red-500" svgIcon="heroicons_outline:arrow-trending-down">
-                        </mat-icon>
-                        <div
-                            class="flex items-center ml-1 lg:ml-0 lg:mt-0.5 text-md leading-none whitespace-nowrap text-secondary">
-                            <span class="font-medium text-red-500">{{ getTurnoverDifference() }}%</span>
-                            <span class="ml-1">en dessous de l'objectif</span>
-                        </div>
-                    </div>
-                </div>
+                <apx-chart *ngIf="chartChartDayTurnover" [series]="chartChartDayTurnover?.series" [chart]="chartChartDayTurnover?.chart"
+                    [dataLabels]="chartChartDayTurnover?.dataLabels" [plotOptions]="chartChartDayTurnover?.plotOptions"
+                    [yaxis]="chartChartDayTurnover?.yaxis" [xaxis]="chartChartDayTurnover?.xaxis" [legend]="chartChartDayTurnover?.legend"
+                    [colors]="chartChartDayTurnover?.colors" [grid]="chartChartDayTurnover?.grid"></apx-chart>
             </div>
         </div>
 
@@ -81,10 +50,83 @@
                         </mat-button-toggle-group>
                     </div>
                 </div>
-                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                    [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-                    [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis" [legend]="chartOptions.legend"
-                    [colors]="chartOptions.colors" [grid]="chartOptions.grid"></apx-chart>
+                <apx-chart *ngIf="chartOptions" [series]="chartOptions?.series" [chart]="chartOptions?.chart"
+                    [dataLabels]="chartOptions?.dataLabels" [plotOptions]="chartOptions?.plotOptions"
+                    [yaxis]="chartOptions?.yaxis" [xaxis]="chartOptions?.xaxis" [legend]="chartOptions?.legend"
+                    [colors]="chartOptions?.colors" [grid]="chartOptions?.grid"></apx-chart>
+            </div>
+        </div>
+
+        <div class="p-4 flex items-center justify-between w-full  bg-card shadow rounded-2xl overflow-hidden mt-4">
+            <div>
+                <h2 class="text-lg font-medium tracking-tight leading-6 truncate">Statistique bénéfice</h2>
+            </div>
+            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+                <div class="p-2 cursor-pointer rounded-3xl bg-indigo-200 flex justify-between items-center">
+                    <mat-icon class="hover:rotate-180 duration-200 text-indigo-600" (click)="resetTable()"
+                        svgIcon="mat_outline:refresh"></mat-icon>
+                </div>
+                <div class="ml-4">
+                    <mat-form-field class="min-w-50 max-h-10 flex">
+                        <input readonly (dateChange)="dateChange($event)" class="pb-2" (click)="picker.open()" matInput
+                            [matDatepicker]="picker">
+                        <mat-datepicker-toggle class="pb-2" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 w-full mt-4">
+            <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table [dataSource]="dataBenefit" class="px-5" mat-table>
+                        <ng-container matColumnDef="revenu">
+                            <th *matHeaderCellDef mat-header-cell>Revenu</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.revenu.toLocaleString('fr-FR') }} Ar
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="depense">
+                            <th *matHeaderCellDef mat-header-cell>Dépenses</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.depenses.toLocaleString('fr-FR') }} Ar
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="benefice">
+                            <th *matHeaderCellDef mat-header-cell>Bénefice</th>
+                            <td *matCellDef="let row" mat-cell>
+                                <span [ngClass]="{'text-red-500': (row?.benefice < row?.depenses)}">{{ (row?.benefice).toLocaleString('fr-FR') }} Ar</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <th *matHeaderCellDef mat-header-cell>Date</th>
+                            <td *matCellDef="let row" mat-cell>
+                                {{ row?.date | date}}
+                            </td>
+                        </ng-container>
+
+                        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+                        <ng-container *matNoDataRow>
+                            <tr *ngIf="!isLoadingResults" class="relative h-20 border-b">
+                                <td class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">Aucun
+                                    enregistrement
+                                </td>
+                            </tr>
+                            <tr *ngIf="isLoadingResults" class="relative h-20 border-b">
+                                <td colspan="7"
+                                    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+                                    <mat-spinner class="w-[32px] h-[32px]"></mat-spinner>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

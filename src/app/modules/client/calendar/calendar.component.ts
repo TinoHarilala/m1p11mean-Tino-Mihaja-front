@@ -19,6 +19,7 @@ import { catchError, of, tap } from 'rxjs';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { NotificationService } from 'app/core/services/notification.service';
 
 
 @Component({
@@ -67,7 +68,8 @@ export class CalendarComponent {
         private clientService: ClientService,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private datePipe: DatePipe,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private notificationSerivce: NotificationService
     ) { }
 
     calendarOptions: CalendarOptions = {
@@ -161,11 +163,11 @@ export class CalendarComponent {
 
         this.clientService.makeAnAppointment(this.idSelectedSpecialOffer ? resultWithOffer : { "rendezVous": body }).pipe(
             tap(() => {
-                alert('Ajout effectuer avec succes')
-                this.dialogRef.close();
+                this.notificationSerivce.success('Réservation effectuée avec succès, merci')
+                this.dialogRef.close(true);
             }),
             catchError(err => {
-                console.log(err);
+                this.notificationSerivce.error(err.error.error)
                 return of(null)
             })
         ).subscribe()

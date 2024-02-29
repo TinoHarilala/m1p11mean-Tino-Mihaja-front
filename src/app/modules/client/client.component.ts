@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import {MatIconModule} from "@angular/material/icon";
-import {MatTabsModule} from "@angular/material/tabs";
-import {RouterLink, RouterOutlet} from "@angular/router";
-import {NgIf} from "@angular/common";
-import {ActualityComponent} from "./actuality/actuality.component";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTabsModule } from "@angular/material/tabs";
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { NgIf } from "@angular/common";
+import { ActualityComponent } from "./actuality/actuality.component";
 import { Client } from 'app/core/model/client.model';
 import { OfferComponent } from './offer/offer.component';
 import { HistoryComponent } from './history/history.component';
+import { NotificationComponent } from './notification/notification.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ClientService } from './client.services';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
     selector: 'app-client',
@@ -20,20 +24,60 @@ import { HistoryComponent } from './history/history.component';
         NgIf,
         ActualityComponent,
         OfferComponent,
-        HistoryComponent
+        HistoryComponent,
+        NotificationComponent,
+        MatBadgeModule
     ],
     standalone: true
 })
 export class ClientComponent {
     selectedTabIndex: number = 0;
     client: Client;
+    notificationsLength: number;
+    notifications: any[] = []
+    constructor(
+        private dialog: MatDialog,
+        private clientService: ClientService
+    ) { }
 
-    ngOnInit(){
+    ngOnInit() {
         this.client = JSON.parse(sessionStorage.getItem('session'));
+        this.getNotification()
+
+        // shared notification length
+        this.clientService.notificationLength$.subscribe(
+            (res: any)=>{
+                if (res) {
+                    this.getNotification()
+                }
+                
+            }
+        )
     }
 
-    navigate(id: number){
-        console.log(id);
+    private getNotification(){
+        this.clientService.getNotification(this.client._id).subscribe(
+            (res: any) => {
+                this.notifications = res.notifications
+                const notificationsWith = res.notifications.filter(notification => notification.status === 0);
+                this.notificationsLength = notificationsWith.length
+            }
+        )
+    }
+
+    navigate(id: number) {
         this.selectedTabIndex = id
+    }
+
+
+
+    openNotificationModal() {
+        const dialog = this.dialog.open(NotificationComponent, {
+            width: '400px',
+            data: {
+                notifications: this.notifications,
+                length: this.notificationsLength
+            }
+        })
     }
 }

@@ -14,6 +14,7 @@ import { Service } from '../../service/service.service';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ServiceModel } from 'app/core/model/service.model';
 import { DateTime } from 'luxon';
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
     selector: 'app-offer-add',
@@ -52,7 +53,8 @@ export class OfferAddComponent {
         private formBuilder: FormBuilder,
         private Service: Service,
         public dialogRef: MatDialogRef<OfferAddComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private notificationService: NotificationService,
     ) {
     }
 
@@ -121,11 +123,10 @@ export class OfferAddComponent {
                     tap(() => {
                         this.dialogRef.close();
                         this.isLoading = false;
-
-                        alert('Modification effectuer')
+                        this.notificationService.success('Modification effectuer avec succès!')
                     }),
                     catchError(err => {
-                        // error
+                        this.notificationService.success(err.error.error)
                         this.isLoading = true;
                         return of(null)
                     })
@@ -136,12 +137,12 @@ export class OfferAddComponent {
             if (this.offerForm.valid) {
                 this.offerService.createOffer(body).pipe(
                     tap(() => {
-                        alert('Ajout effectuer avec succès')
+                        this.notificationService.success('Ajout effectuer avec succès!')
                         this.isLoading = true;
                         this.dialogRef.close();
                     }),
-                    catchError(() => {
-                        alert('Une erreur s\'est produte')
+                    catchError((err) => {
+                        this.notificationService.success(err.error.error)
                         this.isLoading = true;
                         return of(null)
                     })

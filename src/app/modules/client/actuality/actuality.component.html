@@ -2,7 +2,7 @@
     <div class="hidden lg:flex flex-col items-start mr-8">
         <fuse-card class="flex flex-col max-w-80 w-full p-8">
             <div class="text-2xl font-semibold leading-tight">A propos de moi</div>
-           
+
             <hr class="w-full border-t my-6">
             <div class="flex flex-col">
                 <div class="flex items-center">
@@ -22,13 +22,11 @@
     </div>
 
     <div class="flex flex-col items-start">
-        <fuse-card *ngFor="let service of services" class="flex flex-col max-w-140 w-full mb-8">
+        <fuse-card *ngFor="let service of services" class="flex flex-col max-w-140 min-w-120 w-full mb-8">
             <div class="flex items-center mx-6 sm:mx-8 mt-6 mb-1">
-                <img class="w-10 h-10 rounded-full mr-4" src="assets/images/avatars/female-01.jpg"
-                    alt="Card cover image">
+                <mat-icon class="w-10 h-10 rounded-full mr-4" svgIcon="heroicons_solid:user-circle"></mat-icon>
                 <div class="flex flex-col">
-                    <span class="font-semibold leading-none">Caroline Lundu</span>
-                    <span class="text-sm text-secondary leading-none mt-1">29 minutes ago</span>
+                    <span class="font-semibold leading-none">Administrateur</span>
                 </div>
             </div>
 
@@ -42,11 +40,6 @@
                     </div>
                 </div>
 
-                <p>
-                    Explorez l'art captivant de la coiffure où l'élégance rencontre la créativité.
-                    Laissez nos experts en coiffure transformer vos cheveux en une œuvre d'art personnalisée.
-                </p>
-
                 <div class="mt-2 text-lg font-medium tracking-tight">
                     prix : {{ service.prix }} <span class="text-secondary font-medium text-xl">Ar</span>
                 </div>
@@ -56,16 +49,18 @@
                 <div class="flex flex-col sm:flex-row sm:items-center mt-4">
                     <div class="flex items-center">
                         <ng-container *ngFor="let employee of service.employe">
-                            <img matTooltip="{{ employee.nom }} - {{ employee.contact}}"
-                                class="w-6 h-6 m-0.5 rounded-full text-card ring-2 ring-white"
-                                src="assets/images/avatars/female-02.jpg" alt="Card cover image">
+                            <mat-icon class="w-6 h-6 m-0.5 rounded-full text-card ring-2 ring-white"
+                                matTooltip="{{ employee.nom }} - {{ employee.contact}}"
+                                svgIcon="heroicons_outline:user-circle"></mat-icon>
                         </ng-container>
 
-                        <div class="text-md tracking-tight ml-3 text-secondary">{{ service?.employe.length }} employés</div>
+                        <div class="text-md tracking-tight ml-3 text-secondary">{{ service?.employe.length }} employés
+                        </div>
                     </div>
                     <div class="hidden sm:flex flex-auto"></div>
                     <div class="flex items-center sm:mt-0">
-                        <button disabled="{{ service.employe.length === 0 }}" (click)="reserve(service)" mat-stroked-button>
+                        <button disabled="{{ service.employe.length === 0 }}" (click)="reserve(service)"
+                            mat-stroked-button>
                             <span class="px-2 ">
                                 Résérver
                             </span>
@@ -76,6 +71,6 @@
             </div>
         </fuse-card>
         <mat-spinner *ngIf="isLoading" class=" w-[32px] h-[32px]"></mat-spinner>
-        
+
     </div>
 </div>

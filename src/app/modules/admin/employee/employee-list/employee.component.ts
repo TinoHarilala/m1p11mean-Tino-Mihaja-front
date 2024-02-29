@@ -5,7 +5,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { Observable, of, Subject } from 'rxjs';
 import { AdminService } from '../../admin.services';
 import { NgFor, NgIf } from "@angular/common";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,9 +21,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { User } from 'app/core/model/user.model';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { EmployeeDetailsComponent } from '../employee.details/employee-details.component';
 import { EmployeeService } from '../employee.service';
+import {debounceTime, filter, map, Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -81,11 +80,14 @@ export class EmployeeComponent implements OnInit {
     selectedEmployee: User;
     matDrawerStatus: boolean = false;
     employeeSelected: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
 
     constructor(
         private adminService: AdminService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private employeeService: EmployeeService
+        private employeeService: EmployeeService,
+        private fb: FormBuilder,
 
     ) {
     }
@@ -101,7 +103,16 @@ export class EmployeeComponent implements OnInit {
                 this._changeDetectorRef.markForCheck();
             }
         });
+        this.searchForm = this.fb.group({
+            searchValue: [''],
+          });
+          this.search()
     }
+    
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+      }
 
     private getEmployee() {
         this.adminService.getEmployeeList().subscribe(
@@ -120,4 +131,26 @@ export class EmployeeComponent implements OnInit {
     closeFuseDrawer(event: any) {
         this.matDrawerStatus = false;
     }
+
+    search() {
+        this.searchControl.valueChanges
+          .pipe(
+            debounceTime(1000),
+            takeUntil(this._unsubscribeAll),
+            map((value) => {
+              this.employees = []
+              this.isLoadingResults = true
+              if (!value || value.length < 2) {
+                this.getEmployee()
+              }
+              return value;
+            }),
+            filter(value => value !== undefined && value !== null && value !== '' && value.length >= 2),
+          ).subscribe((value) => {
+          this.employeeService.search(value).subscribe(res => {
+            this.isLoadingResults = false
+            this.employees = res.employe
+          })
+        })
+      }
 }

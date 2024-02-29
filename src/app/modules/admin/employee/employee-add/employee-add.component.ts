@@ -23,6 +23,7 @@ import {
 import { EmployeeService } from '../employee.service';
 import { catchError, of, tap } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
     selector: 'employee-add',
@@ -64,7 +65,8 @@ export class EmployeeAddComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private service: Service,
-        private employeeService: EmployeeService
+        private employeeService: EmployeeService,
+        private notificationService: NotificationService
     ) {
     }
 
@@ -151,12 +153,13 @@ export class EmployeeAddComponent implements OnInit {
 
         this.employeeService.add(body).pipe(
             tap(() => {
+                this.notificationService.success('Ajout effectuer avec succès')
                 this._router.navigate(['employee/list']);
                 this.isLoading = false;
                 
             }),
             catchError(err => {
-                console.log(err);
+                this.notificationService.success(err.error.error)
                 return of(null)
             })
         ).subscribe()

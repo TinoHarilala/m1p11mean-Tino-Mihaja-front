@@ -2,11 +2,15 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { StringChain } from "lodash";
+import { Subject } from "rxjs";
 
 @Injectable({
     providedIn:"root"
 })
 export class ClientService {
+    private notificationLength = new Subject<boolean>()
+    notificationLength$ = this.notificationLength.asObservable()
+
     constructor(
         private http: HttpClient
     ){}
@@ -49,5 +53,20 @@ export class ClientService {
     getDetailHistory(idHistory: string, idClient){
         const url = [environment.apiUrl, 'paiement.rendezVous', idHistory, idClient].join('/');
         return this.http.get(url)
+    }
+
+    getNotification(id_client: string){
+        const url = [environment.apiUrl, 'get.notification', id_client].join('/');
+        return this.http.get(url)
+    }
+
+    sharedNotificationLength(status: boolean){
+        this.notificationLength.next(status)
+    }
+
+    updateNotificationStatus(id: string){
+        const url = [environment.apiUrl, 'update', id].join('/');
+        return this.http.get(url)
+
     }
 }

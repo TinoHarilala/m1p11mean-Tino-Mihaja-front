@@ -35,4 +35,9 @@ export class Service {
         const url = [environment.apiUrl, 'service', id].join('/');
         return this.http.get<any>(url);
     }
+
+    search(nom: string){
+        const url = [environment.apiUrl, 'get.service?nom='+ nom].join('/')
+        return this.http.get<any>(url)
+    }
 }

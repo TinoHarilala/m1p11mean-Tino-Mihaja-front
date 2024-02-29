@@ -28,4 +28,9 @@ export class EmployeeService {
     sharedEmployee(employee: User){
         this.sharedDataEmployee.next(employee);
     }
+
+    search(nom: string){
+        const url = [environment.apiUrl, 'get.employe?nom='+ nom].join('/')
+        return this.http.get<any>(url)
+    }
 }

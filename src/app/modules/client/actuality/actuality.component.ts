@@ -59,8 +59,10 @@ export class ActualityComponent {
             width: '950px',
             data: service
         });
-        dialogRef.afterClosed().subscribe(()=>{
-            this.navigatePayment.emit(2)
+        dialogRef.afterClosed().subscribe((res)=>{
+            if (res) {
+                this.navigatePayment.emit(2)
+            }
         }
         )
     }

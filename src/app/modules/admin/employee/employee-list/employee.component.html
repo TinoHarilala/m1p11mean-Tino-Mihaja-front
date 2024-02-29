@@ -1,86 +1,6 @@
 <div class="flex flex-col flex-auto min-w-0">
     <div class="flex-auto p-6 sm:p-10">
-        <!-- <div class="flex items-center justify-between w-full">
-            <div>
-                <h2 class="text-4xl font-extrabold tracking-tight">Employés</h2>
-            </div>
-            <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <div class="flex items-center">
-                    <button [routerLink]='"../add"'
-                            class="ml-4"
-                            mat-flat-button
-                            [color]="'primary'">
-                        <mat-icon class="icon-size-5" svgIcon="mat_outline:add"></mat-icon>
-                        <span class="ml-2 mr-1">Ajouter</span>
-                    </button>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="grid grid-cols-1 gap-8 w-full mt-4">
-            <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table  [dataSource]="data" class="px-5" mat-table >
-                        <ng-container matColumnDef="name">
-                            <th *matHeaderCellDef mat-header-cell>Nom</th>
-                            <td *matCellDef="let row" mat-cell>
-                                {{ row.nom }}
-                            </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="address">
-                            <th *matHeaderCellDef mat-header-cell>Adresse</th>
-                            <td *matCellDef="let row" mat-cell>
-                                {{ row.adresse }}
-                            </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="contact">
-                            <th *matHeaderCellDef mat-header-cell>Contact</th>
-                            <td *matCellDef="let row" mat-cell>
-                                {{ row.contact }}
-                            </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="email">
-                            <th *matHeaderCellDef mat-header-cell>email</th>
-                            <td *matCellDef="let row" mat-cell>
-                                {{ row.email }}
-                            </td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="action">
-                            <th *matHeaderCellDef mat-header-cell class="text-right">Action</th>
-                            <td *matCellDef="let row" mat-cell class="text-right">
-                                <button (click)="openLeaveDetailsEditModal(row)"
-                                        type="button"
-                                        class="h-10 rounded mat-elevation-z0 bg-indigo-100 text-indigo-800 dark:bg-indigo-600 dark:text-indigo-50"
-                                        mat-mini-fab
-                                        color="primary">
-                                    <mat-icon class="icon-size-5" svgIcon="mat_outline:edit"></mat-icon>
-                                </button>
-                            </td>
-                        </ng-container>
-
-                        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-                        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-
-                        <ng-container *matNoDataRow>
-                            <tr *ngIf="!isLoadingResults" class="relative h-20 border-b">
-                                <td class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">Aucun enregistrement</td>
-                            </tr>
-                            <tr *ngIf="isLoadingResults" class="relative h-20 border-b">
-                                <td colspan="7"
-                                    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-                                    <mat-spinner class="w-[32px] h-[32px]"></mat-spinner>
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </table>
-                </div>
-            </div>
-        </div> -->
-
+        
         <div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
             <mat-drawer-container class="mat-elevation-z0 flex-auto h-full bg-card dark:bg-transparent"
                 hasBackdrop="false">
@@ -108,12 +28,12 @@
                             <div class="flex items-center mt-4 sm:mt-0 md:mt-4">
                                 <!-- Search -->
                                 <div class="flex-auto">
-                                    <mat-form-field
+                                    <mat-form-field [formGroup]="searchForm"
                                         class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded w-full min-w-50">
 
                                         <mat-icon matPrefix svgIcon="mat_outline:search"></mat-icon>
-                                        <input matInput [autocomplete]="'off'"
-                                            [placeholder]="'Search contacts'">
+                                        <input [formControl]="searchControl" matInput [autocomplete]="'off'"
+                                            [placeholder]="'Recherche ...'">
                                     </mat-form-field>
                                 </div>
                                 <!-- Add contact button -->

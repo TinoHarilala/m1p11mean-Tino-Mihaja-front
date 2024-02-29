@@ -1,0 +1,14 @@
+<div class="grid grid-cols-1 -m-4">
+    <div class="border-b" *ngFor="let notification of notifications">
+        <div class="cursor-pointer hover:bg-gray-200">
+            <ng-contaire>
+                <div (click)="updateStatus(notification)" class="p-4 rounded-2xl" [ngClass]="{'bg-gray-100': notification?.status === 0}">
+                    <span>Nouvelle offre : <b>{{ notification?.offre?.title }}</b></span> <br>
+                    <span> {{ notification?.offre?.description }}</span><br>
+                    <span class="text-secondary text-md">{{ notification?.offre?.start | date :'dd-MMM YYY hh:mm' }}
+                        --> {{ notification?.offre?.end | date :'dd-MMM-YYY hh:mm' }}</span>
+                </div>
+            </ng-contaire>
+        </div>
+    </div>
+</div>

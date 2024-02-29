@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { User } from 'app/core/model/user.model';
 import { catchError, of, tap } from 'rxjs';
 import { an } from '@fullcalendar/core/internal-common';
+import { NotificationService } from 'app/core/services/notification.service';
 
 
 
@@ -62,7 +63,7 @@ export class PaymentComponent {
         private formBuilder: FormBuilder,
         private clientService: ClientService,
         public dialogRef: MatDialogRef<PaymentComponent>,
-
+        private notificationService: NotificationService
     ) { }
 
     ngOnInit() {
@@ -95,12 +96,13 @@ export class PaymentComponent {
         }
         this.clientService.payment(body).pipe(
             tap(() => {
-                alert('Payment done');
+                this.notificationService.success('Payment effectué avec seccès')
                 this.getDetailHistory(this.data.history._id, this.user._id);
                 this.resetForm();
+                this.dialogRef.close(true)
             }),
             catchError(err => {
-                alert(err?.error?.error)
+                this.notificationService.error(err.error.error)
                 return of(null)
             })
         ).subscribe()

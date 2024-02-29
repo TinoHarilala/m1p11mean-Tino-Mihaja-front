@@ -13,6 +13,7 @@ import { User } from "app/core/model/user.model";
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Service } from "../service.service";
 import { lowerFirst } from "lodash-es";
+import { NotificationService } from "app/core/services/notification.service";
 
 @Component({
     selector: 'service-add',
@@ -50,7 +51,8 @@ export class ServiceAddComponent {
         private formBuilder: FormBuilder,
         private adminService: AdminService,
         private service: Service,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private notificationService: NotificationService
     ) { }
 
     ngOnInit() {
@@ -80,6 +82,7 @@ export class ServiceAddComponent {
         this.service.update(body).subscribe(res => {
             if (res) {
                 this.dialogRef.close(true)
+                this.notificationService.success('Modification effetuer avec succès')
             }
         })
     }
@@ -189,14 +192,14 @@ export class ServiceAddComponent {
             // image
             employe: this.employe
         }
-        console.log(body);
 
         this.service.create(body).pipe(
             tap(() => {
                 this.dialogRef.close();
+                this.notificationService.success('Ajout effectuer avec succès')
             }),
             catchError(err => {
-                console.log(err);
+                this.notificationService.success(err.error.error)
                 return of(null)
             })
         ).subscribe()
@@ -213,6 +216,7 @@ export class ServiceAddComponent {
         this.service.delete(this.id).subscribe(res=>{
             if (res){
                 this.dialogRef.close()
+                this.notificationService.success('Suppression effectuer avec succès')
             }
         })
     }

@@ -4,6 +4,20 @@
         <div class="flex flex-col flex-auto bg-card shadow rounded-sm overflow-hidden">
             <div class="overflow-x-auto">
                 <table [dataSource]="histories" class="px-5" mat-table>
+
+                    <ng-container matColumnDef="status">
+                        <th *matHeaderCellDef mat-header-cell>Etat</th>
+                        <td *matCellDef="let row" mat-cell>
+                            <mat-icon *ngIf="row?.paymentStatus === 10" class="text-primary icon-size-5 mt-3"
+                                              svgIcon="heroicons_mini:check-circle">
+                                    </mat-icon>
+                                    <mat-icon *ngIf="row?.paymentStatus === 0"
+                                              class="icon-size-5 text-gray-500 mt-3"
+                                              svgIcon="heroicons_mini:x-circle">
+                                    </mat-icon>
+                        </td>
+                    </ng-container>
+
                     <ng-container matColumnDef="service">
                         <th *matHeaderCellDef mat-header-cell>Service/ Heure</th>
                         <td *matCellDef="let row" mat-cell>

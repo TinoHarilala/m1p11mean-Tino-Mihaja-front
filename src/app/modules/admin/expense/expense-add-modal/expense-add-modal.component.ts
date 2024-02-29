@@ -7,6 +7,7 @@ import {NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {ExpenseService} from "../expense.service";
 import {catchError, of, tap} from "rxjs";
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
     selector: 'app-expense-add-modal',
@@ -32,7 +33,8 @@ export class ExpenseAddModalComponent {
     constructor(
         public dialogRef: MatDialogRef<ExpenseAddModalComponent>,
         private formBuilder: FormBuilder,
-        private expenseService: ExpenseService
+        private expenseService: ExpenseService,
+        private notificationService: NotificationService
     ) {
     }
 
@@ -66,6 +68,7 @@ export class ExpenseAddModalComponent {
         if (this.expenseForm.valid) {
             this.expenseService.update(data).subscribe(res=>{
                 if (res){
+                    this.notificationService.success('Modification effectuer avec succès')
                     this.dialogRef.close(true)
                 }
             })
@@ -78,8 +81,10 @@ export class ExpenseAddModalComponent {
             this.expenseService.create(inputValue).pipe(
                 tap(() => {
                     this.dialogRef.close(true);
+                    this.notificationService.success('Ajout effectuer avec succès')
                 }),
                 catchError(err => {
+                    this.notificationService.error(err.error.error)
                     return of(null)
                 })
             ).subscribe();

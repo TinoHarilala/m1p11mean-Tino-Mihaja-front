@@ -48,7 +48,7 @@ import { PaymentComponent } from '../payment/payment.component';
 export class HistoryComponent {
     histories = [];
     isLoadingResults: boolean = false;
-    displayedColumns = ["service", "employee", "date", "price", "payment"];
+    displayedColumns = ["status", "service", "employee", "date", "price", "payment"];
 
     constructor(
         private clientService: ClientService,
@@ -71,13 +71,18 @@ export class HistoryComponent {
     }
 
     openPayment(history){
-        console.log(history);
-        
         const dialogRef = this.dialog.open(PaymentComponent, {
             width: '900px',
             data: {
                 history
             }
         })
+        dialogRef.afterClosed().subscribe(
+            (res)=>{
+                if(res){
+                    this.getHistories();
+                }
+            }
+        )
     }
 }

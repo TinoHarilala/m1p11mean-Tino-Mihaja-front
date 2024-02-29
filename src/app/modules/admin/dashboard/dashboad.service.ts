@@ -1,4 +1,6 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "environments/environment";
 import { DateTime } from "luxon";
 import { ApexAxisChartSeries } from "ng-apexcharts";
 
@@ -20,6 +22,7 @@ export const dataSeriesReservation = [
 })
 export class DashboardService {
     constructor(
+        private http: HttpClient
     ) { }
 
     getTurnover() {
@@ -28,5 +31,35 @@ export class DashboardService {
 
     getReservation() {
         return dataSeriesReservation
+    }
+
+    getStat(){
+        const url = [environment.apiUrl, 'statistique.chiffreAffaireMois'].join('/');
+        return this.http.get(url);
+    }
+
+    getStatReservation(){
+        const url = [environment.apiUrl, 'statistique.reservationMois'].join('/');
+        return this.http.get(url);
+    }
+
+    getBenefit(){
+        const url = [environment.apiUrl, 'statistique.benefice'].join('/');
+        return this.http.get(url);
+    }
+
+    getBenefitDate(month, year){
+        const url = [environment.apiUrl, `statistique.benefice?mois=${month}&annee=${year}`].join('/');
+        return this.http.get(url)
+    }
+
+    getStatDailyReservation(){
+        const url = [environment.apiUrl, 'statistique.reservation'].join('/');
+        return this.http.get(url);
+    }
+
+    gettDayTurnover(){
+        const url = [environment.apiUrl, 'statistique.chiffreAffaire'].join('/');
+        return this.http.get(url);
     }
 }

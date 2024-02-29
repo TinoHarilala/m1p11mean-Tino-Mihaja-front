@@ -14,6 +14,7 @@ import { OfferModel } from 'app/core/model/offer.model';
 import { MatDialog } from '@angular/material/dialog';
 import { OfferAddComponent } from '../offer-add/offer-add.component';
 import { ServiceModel } from 'app/core/model/service.model';
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
     selector: 'app-offer',
@@ -47,7 +48,7 @@ export class OfferComponent {
     constructor(
         private offerService: OfferService,
         private dialog: MatDialog,
-
+        private notificationService: NotificationService
     ){}
 
     ngOnInit(){
@@ -86,6 +87,7 @@ export class OfferComponent {
                 if (res) {
                     this.isLoading = false
                     this.getOfferList();
+                    this.notificationService.success('Suppression effectuer avec succès')
                 }
             }
         );

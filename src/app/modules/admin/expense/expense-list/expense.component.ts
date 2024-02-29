@@ -13,6 +13,7 @@ import {data} from "autoprefixer";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NotificationService } from 'app/core/services/notification.service';
 
 @Component({
     selector: 'app-expense',
@@ -44,6 +45,7 @@ export class ExpenseComponent {
     constructor(
         private expenseService: ExpenseService,
         private dialog: MatDialog,
+        private notificationService: NotificationService
     ) {
     }
 
@@ -66,6 +68,7 @@ export class ExpenseComponent {
         this.expenseService.deleteExpense(id).subscribe(res=>{
             if (res){
                 this.getList()
+                this.notificationService.success('Suppression effectuer avec succès')
             }
         })
         

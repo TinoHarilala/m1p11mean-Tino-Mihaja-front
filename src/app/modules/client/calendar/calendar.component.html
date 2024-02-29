@@ -11,7 +11,7 @@
             <span class="text-xl font-normal underline">Offre spéciales</span>
             <div class="border rounded p-4 " [ngClass]="{ 'bg-gray-100': offer._id === idSelectedSpecialOffer }"
                 *ngFor="let offer of offers">
-                <ng-container *ngIf="offer?.isValide === 1">
+                <ng-container>
                     <div (click)="setSpecialOffer(offer._id)" class="cursor-pointer">
                         <span class="mb-4">
                             {{ offer.title }}
